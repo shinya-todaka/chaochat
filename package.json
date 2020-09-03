@@ -8,7 +8,7 @@
     "dev": "next frontend",
     "build:functions": "tsc --project functions",
     "build:public": "cpx \"public/**/*.*\" \"dist/public\" -C",
-    "build": "next build frontend npm run build:functions && npm run build:public",
+    "build": "next build frontend && npm run build:functions && npm run build:public",
     "deploy": "firebase deploy --only functions,hosting",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
