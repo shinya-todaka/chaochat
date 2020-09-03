@@ -5,9 +5,6 @@ const Header = () => (
     <Link href="/">
       <a>Home</a>
     </Link>{' '}
-    <Link href="/room">
-      <a>Room</a>
-    </Link>
   </header>
 );
 

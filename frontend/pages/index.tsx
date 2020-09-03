@@ -1,10 +1,11 @@
 import Header from 'components/Header';
+import { NextPage } from 'next';
 
-const Index = () => {
+const Index: NextPage = () => {
   return (
     <>
       <Header />
-      <p>Home!</p>
+      <p>Home</p>
     </>
   );
 };
