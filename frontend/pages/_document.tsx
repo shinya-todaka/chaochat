@@ -13,7 +13,7 @@ class MyDocument extends Document {
     return { ...initialProps };
   }
 
-  render(): Element {
+  render() {
     return (
       <Html lang="ja">
         <Head />
