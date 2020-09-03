@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"lib": [
+			"es6",
+			"dom",
+			"es2019"
+		],
+		"module": "commonjs",
+		"noImplicitReturns": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"noUnusedLocals": false,
+		"outDir": "../dist",
+		"sourceMap": true,
+		"strict": true,
+		"target": "es2018",
+		"forceConsistentCasingInFileNames": false,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"allowJs": true,
+		"baseUrl": "."
+	},
+	"compileOnSave": true,
+	"include": [
+		"src/",
+		".eslintrc.js",
+	]
+}
