@@ -83,7 +83,7 @@ const RightBarItem: FC<{ loadingUser: boolean; user: User }> = ({
           onClose={handleClose}
           color="inherit"
         >
-          <MenuItem onClick={handleSignout}>Sign Out</MenuItem>
+          <MenuItem onClick={handleSignout}>ログアウト</MenuItem>
         </Menu>
       </Box>
     );
@@ -91,7 +91,7 @@ const RightBarItem: FC<{ loadingUser: boolean; user: User }> = ({
 
   return (
     <Button color="inherit" onClick={handleSignin}>
-      <Typography>Sign In</Typography>
+      <Typography>ログイン</Typography>
     </Button>
   );
 };

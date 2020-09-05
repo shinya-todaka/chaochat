@@ -72,7 +72,7 @@ const CreateRoom: FC<{
 };
 
 const TweetInvitation: FC<{ roomId: string }> = ({ roomId }) => {
-  const HOST = process.env.REACT_APP_HOST;
+  const HOST = process.env.NEXT_PUBLIC_HOST;
 
   return (
     <>

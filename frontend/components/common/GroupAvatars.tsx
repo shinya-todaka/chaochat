@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
-import { Member } from 'services/chaos/models/member';
+import { Member } from 'models/member';
 
 const GroupAvatars: FC<{ members: Member[] }> = ({ members }) => {
   return (
