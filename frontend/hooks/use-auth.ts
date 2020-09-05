@@ -5,7 +5,7 @@ import 'firebase/auth';
 
 const useAuth = (): [User | null, boolean] => {
   const [user, setUser] = useState<User | null>(null);
-  const [userLoading, setUserLoading] = useState<boolean>(true);
+  const [loadingUser, setLoadingUser] = useState<boolean>(true);
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(async (authUser) => {
@@ -17,7 +17,7 @@ const useAuth = (): [User | null, boolean] => {
       } else {
         setUser(null);
       }
-      setUserLoading(false);
+      setLoadingUser(false);
     });
 
     return () => {
@@ -25,7 +25,7 @@ const useAuth = (): [User | null, boolean] => {
     };
   }, []);
 
-  return [user, userLoading];
+  return [user, loadingUser];
 };
 
 export default useAuth;
