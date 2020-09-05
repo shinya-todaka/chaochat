@@ -1,15 +1,11 @@
 import { NextPage, GetServerSidePropsContext } from 'next';
-import { useState, useEffect } from 'react';
-import { Room } from 'models/room';
-import SigninDialogProvider, {
-  useAuthDialog,
-} from 'contexts/SigninDialogContext';
+import { IRoom } from 'models/room';
+import SigninDialogProvider from 'contexts/SigninDialogContext';
 import 'firebase/auth';
-import { useUser } from 'contexts/UserContext';
 import readRoom from 'services/read-room';
 import RoomContainer from 'components/container/RoomContainer';
 
-const RoomPage: NextPage<{ room: Room }> = ({ room }) => {
+const RoomPage: NextPage<{ room: IRoom }> = ({ room }) => {
   return (
     <SigninDialogProvider title="ルームに参加するためにログインしてください">
       <RoomContainer room={room} />
@@ -24,8 +20,8 @@ export async function getServerSideProps(
 ) {
   const { params } = context;
   const { roomId } = params;
-  const roomData = await readRoom(roomId);
-  const room: Room = { ...roomData, createdAt: null };
+  const room = await readRoom(roomId);
+  if ('createdAt' in room) delete room.createdAt;
 
   return {
     props: { room },

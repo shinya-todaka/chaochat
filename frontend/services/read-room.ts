@@ -1,16 +1,16 @@
 import firebase from 'firebase/app';
-import { Room } from 'models/room';
+import { IRoom, roomConverter } from 'models/room';
 
-const readRoom = async (roomId: string): Promise<Room> => {
+const readRoom = async (roomId: string): Promise<IRoom> => {
   const db = firebase.firestore();
   const roomDocument = db
     .collection('message')
     .doc('v1')
     .collection('rooms')
-    .doc(roomId);
+    .doc(roomId)
+    .withConverter(roomConverter);
   const snapshot = await roomDocument.get();
-  const roomData: Room = snapshot.data() as Room;
-  const room: Room = { ...roomData, id: snapshot.id };
+  const room = snapshot.data() as IRoom;
 
   return room;
 };

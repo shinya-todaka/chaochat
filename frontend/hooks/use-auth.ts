@@ -3,8 +3,8 @@ import firebase from 'firebase/app';
 import { User } from 'models/user';
 import 'firebase/auth';
 
-const useAuth = (): [User | null, boolean] => {
-  const [user, setUser] = useState<User | null>(null);
+const useAuth = (): { user: User | null; loadingUser: boolean } => {
+  const [user, setUser] = useState<null | User>(null);
   const [loadingUser, setLoadingUser] = useState<boolean>(true);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const useAuth = (): [User | null, boolean] => {
     };
   }, []);
 
-  return [user, loadingUser];
+  return { user, loadingUser };
 };
 
 export default useAuth;

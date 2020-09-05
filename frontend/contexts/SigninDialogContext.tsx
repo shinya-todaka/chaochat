@@ -14,7 +14,7 @@ const SigninDialogContext = createContext<SigninDialogContextValue>({
   onAuthStateChanged: () => undefined,
 });
 
-const SigninDialogProvider: FC<{ children; title: string }> = ({
+const SigninDialogProvider: FC<{ children: any; title: string }> = ({
   children,
   title,
 }) => {

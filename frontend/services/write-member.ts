@@ -1,10 +1,10 @@
 import firebase from 'firebase/app';
-import { Member } from 'models/member';
+import { OMember } from 'models/member';
 
 const writeMember = async (
   uid: string,
   roomId: string,
-  member: Member,
+  member: OMember,
 ): Promise<void> => {
   const db = firebase.firestore();
   const roomDocument = db
@@ -17,11 +17,7 @@ const writeMember = async (
   batch.update(roomDocument, {
     members: firebase.firestore.FieldValue.arrayUnion(uid),
   });
-  const theMember = {
-    ...member,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-  };
-  batch.set(roomDocument.collection('members').doc(uid), theMember);
+  batch.set(roomDocument.collection('members').doc(uid), member);
   await batch.commit();
 };
 

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Box from '@material-ui/core/Box';
 import GroupAvatars from 'components/common/GroupAvatars';
-import { Member } from 'models/member';
+import { IMember } from 'models/member';
 import ToolBar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -9,7 +9,7 @@ import { Typography } from '@material-ui/core';
 
 const RoomHeader: FC<{
   title: string;
-  members: Member[];
+  members: IMember[];
   onClickLeave: () => void;
 }> = ({ title, members, onClickLeave }) => {
   return (

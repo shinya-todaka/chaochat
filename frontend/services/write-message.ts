@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
-import { Message } from 'models/message';
+import { OMessage } from 'models/message';
 
-const writeUser = async (roomId: string, message: Message): Promise<void> => {
+const writeUser = async (roomId: string, message: OMessage): Promise<void> => {
   const db = firebase.firestore();
   const messagesCollection = db
     .collection('message')
@@ -10,11 +10,7 @@ const writeUser = async (roomId: string, message: Message): Promise<void> => {
     .doc(roomId)
     .collection('messages');
 
-  const theMessage = {
-    ...message,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-  };
-  await messagesCollection.add(theMessage);
+  await messagesCollection.add(message);
 };
 
 export default writeUser;

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header: FC<{ loadingUser: boolean; user: User }> = ({
+const Header: FC<{ loadingUser: boolean; user: User | null }> = ({
   loadingUser,
   user,
 }) => {

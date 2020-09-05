@@ -8,8 +8,8 @@ import { NextPage } from 'next';
 import { useUser } from 'contexts/UserContext';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { Room } from 'models/room';
-import { Member } from 'models/member';
+import { ORoom } from 'models/room';
+import { OMember } from 'models/member';
 import { TwitterIcon } from 'components/common/icons';
 import CreateRoomDialog from 'components/common/CreateRoomDialog';
 import writeRoom from 'services/write-room';
@@ -42,12 +42,16 @@ const Index: NextPage = () => {
     name: string | null,
   ): Promise<string | null> => {
     if (user) {
-      const room: Room = { name, members: [user.id] };
-      const member: Member = {
+      const room: ORoom = {
+        name,
+        members: [user.id],
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      };
+      const member: OMember = {
         displayName: user.displayName,
         photoUrl: user.photoUrl,
         isEnabled: true,
-        createdAt: null,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
       const roomId = await writeRoom(user.id, member, room);
 

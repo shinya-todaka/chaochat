@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
-const RightBarItem: FC<{ loadingUser: boolean; user: User }> = ({
+const RightBarItem: FC<{ loadingUser: boolean; user: User | null }> = ({
   loadingUser,
   user,
 }) => {

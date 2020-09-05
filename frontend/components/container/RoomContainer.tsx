@@ -1,19 +1,22 @@
 import React, { FC, useEffect } from 'react';
 import { useUser } from 'contexts/UserContext';
+import useRoom from 'hooks/use-room';
 import AppBar from 'components/common/header/AppBar';
 import Box from '@material-ui/core/Box';
 import { useAuthDialog } from 'contexts/SigninDialogContext';
 import RoomHeader from 'components/rooms/RoomHeader';
 import MessageList from 'components/common/list/MessageList';
 import RoomFooter from 'components/rooms/RoomFooter';
-import { Room } from 'models/room';
+import { IRoom } from 'models/room';
 
-const RoomContainer: FC<{ room: Room }> = ({ room }) => {
+const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
   const { loadingUser, user } = useUser();
   const { onAuthStateChanged } = useAuthDialog();
+  const { isInRoom, members, messages } = useRoom(user?.id || null, room.id);
 
   useEffect(() => {
     onAuthStateChanged(!!user, loadingUser);
+    console.log(user);
   }, [user, loadingUser, onAuthStateChanged]);
 
   return (
@@ -29,7 +32,7 @@ const RoomContainer: FC<{ room: Room }> = ({ room }) => {
         overflow="hidden"
       >
         <RoomHeader
-          title={room.name}
+          title={room.name || ''}
           members={[]}
           onClickLeave={() => undefined}
         />

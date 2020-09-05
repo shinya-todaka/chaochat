@@ -1,28 +1,21 @@
-import useRoomOnce from 'hooks/use-room-once';
 import useMembers from 'hooks/use-members';
 import useMessages from 'hooks/use-messages';
-import { Room } from 'models/room';
-import { Member } from 'models/member';
-import { Message } from 'models/message';
+import { IMember } from 'models/member';
+import { IMessage } from 'models/message';
 
 const useRoom = (
   uid: string | null,
-  roomId: string,
+  roomId: string | null,
 ): {
-  isInitialFetching: boolean;
   isInRoom: boolean;
-  room: Room | null;
-  members: Member[];
-  messages: Message[];
+  members: IMember[];
+  messages: IMessage[];
 } => {
-  const { room, isRoomLoading } = useRoomOnce(roomId);
   const { members, isInRoom, isMembersLoading } = useMembers(uid, roomId);
   const { messages } = useMessages(isInRoom, roomId);
 
   return {
-    isInitialFetching: isRoomLoading || isMembersLoading,
     isInRoom,
-    room,
     members,
     messages,
   };

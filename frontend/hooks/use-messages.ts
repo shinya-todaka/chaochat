@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import firebase from 'firebase/app';
-import { Message } from 'models/message';
+import { IMessage, messageConverter } from 'models/message';
+import 'firebase/firestore';
 
 interface MessagesDictionary {
-  [name: string]: Message;
+  [name: string]: IMessage;
 }
 
 const useMessages = (
   isReady: boolean,
   roomId: string,
-): { messages: Message[]; loading: boolean; error: Error | null } => {
-  const [messages, setMessages] = useState<Message[]>([]);
+): { messages: IMessage[]; loading: boolean; error: Error | null } => {
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -23,7 +24,8 @@ const useMessages = (
       .collection('rooms')
       .doc(roomId)
       .collection('messages')
-      .orderBy('createdAt');
+      .orderBy('createdAt')
+      .withConverter(messageConverter);
 
     let unsubscribe: () => void | undefined;
     if (!unmounted && isReady) {
@@ -36,10 +38,7 @@ const useMessages = (
             .docChanges({ includeMetadataChanges: true })
             .forEach((docChange) => {
               const { doc } = docChange;
-              const message = {
-                ...(doc.data() as Message),
-                id: doc.id,
-              };
+              const message = doc.data() as IMessage;
               if (docChange.type === 'added') {
                 messagesDictionary[doc.id] = message;
               } else if (docChange.type === 'modified') {

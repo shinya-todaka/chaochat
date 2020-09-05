@@ -13,7 +13,7 @@ const UserContext = createContext<UserContextValue>({
 });
 
 const UserProvier: FC = ({ children }) => {
-  const [user, loadingUser] = useAuth();
+  const { user, loadingUser } = useAuth();
 
   return (
     <UserContext.Provider value={{ user, loadingUser }}>
