@@ -3,8 +3,12 @@ import { useUser } from 'contexts/UserContext';
 import AppBar from 'components/common/header/AppBar';
 import Box from '@material-ui/core/Box';
 import { useAuthDialog } from 'contexts/SigninDialogContext';
+import RoomHeader from 'components/rooms/RoomHeader';
+import MessageList from 'components/common/list/MessageList';
+import RoomFooter from 'components/rooms/RoomFooter';
+import { Room } from 'models/room';
 
-const RoomContainer: FC = () => {
+const RoomContainer: FC<{ room: Room }> = ({ room }) => {
   const { loadingUser, user } = useUser();
   const { onAuthStateChanged } = useAuthDialog();
 
@@ -20,9 +24,25 @@ const RoomContainer: FC = () => {
         justifyContent="center"
         bgcolor="white"
         alignItems="center"
+        flexDirection="column"
         height="calc(100vh - 50px)"
         overflow="hidden"
-      />
+      >
+        <RoomHeader
+          title={room.name}
+          members={[]}
+          onClickLeave={() => undefined}
+        />
+        <MessageList roomId="" uid="" messages={[]} />
+        <Box position="fixed" bottom="0" width="100%" flexGrow={1}>
+          <RoomFooter
+            isInRoom={false}
+            room={room}
+            sendMessage={() => undefined}
+            handleJoin={() => undefined}
+          />
+        </Box>
+      </Box>
     </>
   );
 };

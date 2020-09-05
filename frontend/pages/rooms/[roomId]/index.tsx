@@ -9,10 +9,10 @@ import { useUser } from 'contexts/UserContext';
 import readRoom from 'services/read-room';
 import RoomContainer from 'components/container/RoomContainer';
 
-const RoomPage: NextPage = ({ room }) => {
+const RoomPage: NextPage<{ room: Room }> = ({ room }) => {
   return (
     <SigninDialogProvider title="ルームに参加するためにログインしてください">
-      <RoomContainer />
+      <RoomContainer room={room} />
     </SigninDialogProvider>
   );
 };
