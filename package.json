@@ -11,7 +11,7 @@
     "copy:fonts": "cpx \"functions/fonts/*.otf\" \"dist/fonts\" -C",
     "copy:images": "cpx \"functions/images/*.png\" \"dist/images\" -C",
     "build:public": "cpx \"public/**/*.*\" \"dist/public\" -C",
-    "build": "next build frontend && npm run build:functions && npm run build:public && npm run copy:images",
+    "build": "next build frontend && npm run build:functions && npm run build:public && npm run copy:images && npm run copy:fonts",
     "deploy": "firebase deploy --only functions,hosting",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

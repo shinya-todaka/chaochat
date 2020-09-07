@@ -4,12 +4,25 @@ import SigninDialogProvider from 'contexts/SigninDialogContext';
 import 'firebase/auth';
 import readRoom from 'services/read-room';
 import RoomContainer from 'components/container/RoomContainer';
+import Head from 'components/common/Head';
 
 const RoomPage: NextPage<{ room: IRoom }> = ({ room }) => {
+  const imageUrl = `${process.env.NEXT_PUBLIC_HOST}/ogpImage?title=${room.name}`;
+  const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${room.id}`;
+
   return (
-    <SigninDialogProvider title="ルームに参加するためにログインしてください">
-      <RoomContainer room={room} />
-    </SigninDialogProvider>
+    <>
+      <Head
+        title="chaochat"
+        description="匿名で参加できるチャット"
+        keyword="chaochat"
+        image={imageUrl}
+        url={roomUrl}
+      />
+      <SigninDialogProvider title="ルームに参加するためにログインしてください">
+        <RoomContainer room={room} />
+      </SigninDialogProvider>
+    </>
   );
 };
 

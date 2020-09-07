@@ -4,10 +4,10 @@ import { createCanvas, loadImage, registerFont } from 'canvas';
 const CANVAS_WIDTH = 1200;
 const CANVAS_HEIGHT = 630;
 
-const imagePath = 'dist/images/background.png';
+const IMAGE_PATH = 'dist/images/background.png';
+const FONT_PATH = 'dist/fonts/NotoSansJP-Regular.otf';
 const FONT_SIZE = 60;
 const FONT_FAMILY = 'Noto Sans JP';
-const FONT_PATH = 'dist/fonts/NotoSansJP-Regular.otf';
 
 const splitByMeasureWidth = (
   str: string,
@@ -32,7 +32,7 @@ async function createBuffer(title: string): Promise<Buffer> {
   registerFont(FONT_PATH, { family: FONT_FAMILY });
   const canvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
   const context = canvas.getContext('2d');
-  const image = await loadImage(imagePath);
+  const image = await loadImage(IMAGE_PATH);
   context.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   context.font = `${FONT_SIZE}px ${FONT_FAMILY}`;
   context.fillStyle = '#000000';
