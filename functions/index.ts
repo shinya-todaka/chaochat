@@ -2,11 +2,7 @@ import * as functions from 'firebase-functions';
 import * as path from 'path';
 import express from 'express';
 import next from 'next';
-
-const helloWorld = express();
-helloWorld.get('*', (req, res) => {
-  res.status(200).send('Hello World!');
-});
+import helloWorld from './helloWorld';
 
 const distDir = `${path.relative(process.cwd(), __dirname)}/next`;
 const app = next({

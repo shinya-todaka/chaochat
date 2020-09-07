@@ -23,7 +23,7 @@
 	},
 	"compileOnSave": true,
 	"include": [
-		"index.ts",
+		"**/*",
 		".eslintrc.js"
 	]
 }
