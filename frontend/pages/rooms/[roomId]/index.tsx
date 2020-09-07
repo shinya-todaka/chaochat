@@ -6,7 +6,11 @@ import readRoom from 'services/read-room';
 import RoomContainer from 'components/container/RoomContainer';
 import Head from 'components/common/Head';
 
-const RoomPage: NextPage<{ room: IRoom }> = ({ room }) => {
+const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
+  if (!room) {
+    return <>Something wrong!</>;
+  }
+
   const imageUrl = `${process.env.NEXT_PUBLIC_HOST}/ogpImage?title=${room.name}`;
   const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${room.id}`;
 
@@ -34,10 +38,16 @@ export async function getServerSideProps(
   const { params } = context;
   if (!params) return { props: {} };
   const { roomId } = params;
-  const room = await readRoom(roomId);
-  if ('createdAt' in room) room.createdAt = null;
+  try {
+    const room = await readRoom(roomId);
+    if ('createdAt' in room) room.createdAt = null;
 
-  return {
-    props: { room },
-  };
+    return {
+      props: { room },
+    };
+  } catch (error) {
+    return {
+      props: {},
+    };
+  }
 }

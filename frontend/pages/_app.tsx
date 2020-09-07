@@ -8,7 +8,7 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
 
-const MyApp = ({ Component, pageProps, router }: AppProps) => {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <UserProvider>
       <Component {...pageProps} />

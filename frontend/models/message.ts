@@ -4,7 +4,7 @@ export type IMessage = {
   id: string;
   from: string;
   text: string;
-  createdAt: Date;
+  createdAt: Date | null;
 };
 
 export type OMessage = {
@@ -24,10 +24,10 @@ export const messageConverter: firebase.firestore.FirestoreDataConverter<
     };
   },
   fromFirestore(snapshot: firebase.firestore.QueryDocumentSnapshot): IMessage {
-    const createdAt = snapshot.data().createdAt as firebase.firestore.Timestamp;
+    const { createdAt } = snapshot.data();
     const message = {
       id: snapshot.id,
-      createdAt: createdAt.toDate(),
+      createdAt: (createdAt && createdAt.toDate()) || null,
       ...snapshot.data(),
     } as IMessage;
 

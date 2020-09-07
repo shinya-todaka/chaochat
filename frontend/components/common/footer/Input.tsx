@@ -17,12 +17,15 @@ const Input: FC<{
   sendMessage: (text: string) => void;
 }> = ({ sendMessage }) => {
   const classes = useStyles();
-  const { text, isValid, onChange } = useInput((theText) => !!theText);
+  const validator = (text: string) => text.length > 0 && text.length < 100;
+  const { text, isValid, onChange } = useInput(validator);
 
   const onSendAction = (event: React.SyntheticEvent<HTMLElement>) => {
-    event.preventDefault();
-    sendMessage(text);
-    onChange('');
+    if (isValid) {
+      event.preventDefault();
+      sendMessage(text);
+      onChange('');
+    }
   };
 
   return (

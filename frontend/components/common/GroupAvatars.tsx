@@ -4,6 +4,8 @@ import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import { IMember } from 'models/member';
 
 const GroupAvatars: FC<{ members: IMember[] }> = ({ members }) => {
+  console.log(...members);
+
   return (
     <AvatarGroup max={5}>
       {members.map((member) =>

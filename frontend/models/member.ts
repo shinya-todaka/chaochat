@@ -13,7 +13,7 @@ export type IMember = {
   displayName: string;
   photoUrl: string | null;
   isEnabled: boolean;
-  createdAt: Date;
+  createdAt: Date | null;
 };
 
 export const memberConverter: firebase.firestore.FirestoreDataConverter<
@@ -26,10 +26,10 @@ export const memberConverter: firebase.firestore.FirestoreDataConverter<
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   }),
   fromFirestore(snapshot: firebase.firestore.QueryDocumentSnapshot): IMember {
-    const createdAt = snapshot.data().createdAt as firebase.firestore.Timestamp;
+    const { createdAt } = snapshot.data();
     const member = {
       id: snapshot.id,
-      createdAt: createdAt.toDate(),
+      createdAt: (createdAt && createdAt.toDate()) || null,
       ...snapshot.data(),
     } as IMember;
 
