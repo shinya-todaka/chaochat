@@ -8,19 +8,24 @@ helloWorld.get('*', (req, res) => {
   res.status(200).send('Hello World!');
 });
 
-const server = express();
-server.use('/helloWorld', helloWorld);
-server.get('*', async (_req, _res) => {
-  const distDir = `${path.relative(process.cwd(), __dirname)}/next`;
-
-  functions.logger.info('distDir', distDir);
-  const nextjsServer = next({
-    dev: false,
-    conf: { distDir },
-  });
-  const nextjsHandle = nextjsServer.getRequestHandler();
-  await nextjsServer.prepare();
-  await nextjsHandle(_req, _res);
+const distDir = `${path.relative(process.cwd(), __dirname)}/next`;
+const app = next({
+  dev: false,
+  conf: { distDir },
 });
 
-export const nextjsFunc = functions.https.onRequest(server);
+const handle = app.getRequestHandler();
+
+export const nextjsFunc = functions.https.onRequest(async (req, res) => {
+  await app.prepare();
+  const server = express();
+  server.use('/helloWorld', helloWorld);
+  server.get('*', async (_req, _res) => {
+    await handle(_req, _res);
+  });
+  server.use((error: any) => {
+    functions.logger.error(error);
+    res.status(500).send('error');
+  });
+  server(req, res);
+});
