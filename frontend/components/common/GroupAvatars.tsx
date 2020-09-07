@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
-import { Member } from 'models/member';
+import { IMember } from 'models/member';
 
-const GroupAvatars: FC<{ members: Member[] }> = ({ members }) => {
+const GroupAvatars: FC<{ members: IMember[] }> = ({ members }) => {
   return (
     <AvatarGroup max={5}>
       {members.map((member) =>

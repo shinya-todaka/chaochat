@@ -19,9 +19,10 @@ export async function getServerSideProps(
   context: GetServerSidePropsContext<{ roomId: string }>,
 ) {
   const { params } = context;
+  if (!params) return { props: {} };
   const { roomId } = params;
   const room = await readRoom(roomId);
-  if ('createdAt' in room) delete room.createdAt;
+  if ('createdAt' in room) room.createdAt = null;
 
   return {
     props: { room },

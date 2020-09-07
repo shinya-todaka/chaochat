@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Message } from 'models/message';
+import { IMessage } from 'models/message';
 
 const useStyles = makeStyles({
   myMessageItem: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-const MyMessageItem: FC<{ message: Message }> = ({ message }) => {
+const MyMessageItem: FC<{ message: IMessage }> = ({ message }) => {
   const classes = useStyles();
 
   return (

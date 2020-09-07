@@ -16,7 +16,6 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
 
   useEffect(() => {
     onAuthStateChanged(!!user, loadingUser);
-    console.log(user);
   }, [user, loadingUser, onAuthStateChanged]);
 
   return (

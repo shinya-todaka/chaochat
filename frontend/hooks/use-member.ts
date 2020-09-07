@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import firebase from 'firebase/app';
-import { Member } from 'models/member';
+import { IMember } from 'models/member';
 
 const useMember = (roomId: string, memberId: string) => {
-  const [member, setMember] = useState<Member>();
+  const [member, setMember] = useState<IMember>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -22,7 +22,7 @@ const useMember = (roomId: string, memberId: string) => {
       docReference
         .get({ source: 'cache' })
         .then((doc) => {
-          const cacheData = doc.data() as Member;
+          const cacheData = doc.data() as IMember;
           setMember({ ...cacheData, id: doc.id });
           setError(null);
           setLoading(false);
@@ -32,7 +32,7 @@ const useMember = (roomId: string, memberId: string) => {
           docReference
             .get({ source: 'server' })
             .then((doc) => {
-              const serverData = doc.data() as Member;
+              const serverData = doc.data() as IMember;
               setMember({ ...serverData, id: doc.id });
               setError(null);
               setLoading(false);

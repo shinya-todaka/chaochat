@@ -4,13 +4,13 @@ export type IRoom = {
   id: string;
   name: string | null;
   members: string[];
-  createdAt: Date;
+  createdAt: Date | null;
 };
 
 export type ORoom = {
   name: string | null;
   members: string[];
-  createdAt: firebase.firestore.FieldValue = firebase.firestore.FieldValue.serverTimestamp();
+  createdAt: firebase.firestore.FieldValue;
 };
 
 export const roomConverter: firebase.firestore.FirestoreDataConverter<

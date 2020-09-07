@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import { Member } from 'services/chaos/models/member';
+import { IMember } from 'models/member';
 
 const useStyles = makeStyles({
   avatar: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-const ProfileImageAvatar: FC<{ member: Member }> = ({ member }) => {
+const ProfileImageAvatar: FC<{ member: IMember }> = ({ member }) => {
   const classes = useStyles();
 
   return member.photoUrl ? (

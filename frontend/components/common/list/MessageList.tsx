@@ -1,5 +1,5 @@
 import React, { FC, useRef } from 'react';
-import { Message } from 'models/message';
+import { IMessage } from 'models/message';
 import MessageItem from 'components/common/message/MessageItem';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -13,11 +13,11 @@ const useStyles = makeStyles({
   },
 });
 
-const MessageList: FC<{ roomId: string; uid: string; messages: Message[] }> = ({
-  roomId,
-  uid,
-  messages,
-}) => {
+const MessageList: FC<{
+  roomId: string;
+  uid: string;
+  messages: IMessage[];
+}> = ({ roomId, uid, messages }) => {
   const classes = useStyles();
   const ref = useRef<HTMLDivElement>(null);
 

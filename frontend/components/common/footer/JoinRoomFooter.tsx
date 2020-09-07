@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core';
-import { Room } from 'models/room';
+import { IRoom } from 'models/room';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
@@ -12,7 +12,7 @@ const useStyles = makeStyles({
 });
 
 const JoinRoomFooter: FC<{
-  room: Room;
+  room: IRoom;
   onClickJoin: (anonymously: boolean) => void;
 }> = ({ room, onClickJoin }) => {
   const classes = useStyles();

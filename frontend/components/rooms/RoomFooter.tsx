@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import Input from 'components/common/footer/Input';
 import JoinRoomFooter from 'components/common/footer/JoinRoomFooter';
-import { Room } from 'models/room';
+import { IRoom } from 'models/room';
 
 const RoomFooter: FC<{
   isInRoom: boolean;
-  room: Room;
+  room: IRoom;
   sendMessage: (text: string) => void;
   handleJoin: (anonymously: boolean) => void;
 }> = ({ isInRoom, room, sendMessage, handleJoin }) => {

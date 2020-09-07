@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Message } from 'models/message';
+import { IMessage } from 'models/message';
 import useMember from 'hooks/use-member';
 import Box from '@material-ui/core/Box';
 import ProfileImageAvatar from 'components/common/ProfileImageAvatar';
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
 });
 
-const OthersMessageItem: FC<{ roomId: string; message: Message }> = ({
+const OthersMessageItem: FC<{ roomId: string; message: IMessage }> = ({
   roomId,
   message,
 }) => {

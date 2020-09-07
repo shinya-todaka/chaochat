@@ -5,7 +5,7 @@ import { IMessage } from 'models/message';
 
 const useRoom = (
   uid: string | null,
-  roomId: string | null,
+  roomId: string,
 ): {
   isInRoom: boolean;
   members: IMember[];
