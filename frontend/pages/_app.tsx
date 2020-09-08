@@ -4,7 +4,6 @@ import UserProvider from 'contexts/UserContext';
 import NextApp, { AppContext } from 'next/app';
 import firebase from 'firebase/app';
 import firebaseConfig from 'firebase-config.json';
-import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from 'plugins/theme';

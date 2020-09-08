@@ -90,7 +90,7 @@ const Complete: FC<{ roomId: string }> = ({ roomId }) => {
   const handleTweet = () => {
     const encodedUri = encodeURI(roomUrl);
     const uri = `https://twitter.com/intent/tweet?url=${encodedUri}`;
-    if (!window.open(uri)) window.location.href = uri;
+    window.open(uri);
   };
 
   return (

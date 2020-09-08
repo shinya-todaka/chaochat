@@ -16,12 +16,14 @@ import JoinRoomFooter from 'components/common/footer/JoinRoomFooter';
 import Input from 'components/common/footer/Input';
 import { OMessage } from 'models/message';
 import { useTextFieldDialog } from 'contexts/TextFieldDialogContext';
+import { useSnackbar } from 'contexts/SnackBarContext';
 
 const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
   const { loadingUser, user } = useUser();
   const { onAuthStateChanged } = useAuthDialog();
   const { isInRoom, members, messages } = useRoom(user?.id || null, room.id);
   const { showDialog } = useTextFieldDialog();
+  const { showSnackbar } = useSnackbar();
 
   useEffect(() => {
     onAuthStateChanged(!!user, loadingUser);
@@ -75,11 +77,17 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
     }
   };
 
+  const handleCopyUrl = async () => {
+    const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${room.id}`;
+    await navigator.clipboard.writeText(roomUrl);
+    showSnackbar('urlをコピーしました!');
+  };
+
   const handleTweet = () => {
     const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${room.id}`;
     const encodedUri = encodeURI(roomUrl);
     const uri = `https://twitter.com/intent/tweet?url=${encodedUri}`;
-    if (!window.open(uri)) window.location.href = uri;
+    window.open(uri);
   };
 
   return (
@@ -100,6 +108,7 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
             members={members}
             onClickLeave={handleLeave}
             handleTweet={handleTweet}
+            handleCopyUrl={handleCopyUrl}
           />
           {user && (
             <MessageList roomId={room.id} uid={user.id} messages={messages} />

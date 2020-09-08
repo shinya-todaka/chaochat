@@ -6,6 +6,7 @@ import RightBarItem from 'components/common/header/RightBarButtonItem';
 import Box from '@material-ui/core/Box';
 import Link from 'next/link';
 import { User } from 'models/user';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +31,9 @@ const Header: FC<{ loadingUser: boolean; user: User | null }> = ({
       <ToolBar variant="dense">
         <Box display="flex" flexGrow={1} alignItems="center">
           <Link href="/">
-            <a className={classes.homeLink}>chaochat</a>
+            <a className={classes.homeLink}>
+              <Typography variant="h6">chaochat</Typography>
+            </a>
           </Link>
           <Box flexGrow={1} />
           <RightBarItem loadingUser={loadingUser} user={user} />
