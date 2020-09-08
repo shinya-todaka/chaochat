@@ -5,13 +5,17 @@ import { IMember } from 'models/member';
 import ToolBar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import { Typography } from '@material-ui/core';
+import { Typography, Tooltip } from '@material-ui/core';
+import PersonAdd from '@material-ui/icons/PersonAdd';
+import IconButton from '@material-ui/core/IconButton';
+import ToolTip from '@material-ui/core/Tooltip';
 
 const RoomHeader: FC<{
   title: string;
   members: IMember[];
   onClickLeave: () => void;
-}> = ({ title, members, onClickLeave }) => {
+  handleTweet: () => void;
+}> = ({ title, members, onClickLeave, handleTweet }) => {
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       <ToolBar variant="dense">
@@ -21,7 +25,11 @@ const RoomHeader: FC<{
           </Box>
           <Box flexGrow={1} />
           <GroupAvatars members={members} />
-          <Button onClick={onClickLeave}>退出</Button>
+          <Tooltip title="urlをツイートする">
+            <IconButton onClick={handleTweet}>
+              <PersonAdd />
+            </IconButton>
+          </Tooltip>
         </Box>
       </ToolBar>
     </AppBar>

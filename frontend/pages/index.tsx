@@ -13,6 +13,7 @@ import { OMember } from 'models/member';
 import { TwitterIcon } from 'components/common/icons';
 import CreateRoomDialog from 'components/common/CreateRoomDialog';
 import writeRoom from 'services/write-room';
+import SnackbarProvider from 'contexts/SnackBarContext';
 
 const useStyles = makeStyles({
   title: {
@@ -62,7 +63,7 @@ const Index: NextPage = () => {
   };
 
   return (
-    <>
+    <SnackbarProvider>
       <AppHeader loadingUser={loadingUser} user={user} />
       <Box display="flex" justifyContent="center" flexDirection="column">
         <Box display="flex" justifyContent="center" className={classes.title}>
@@ -71,7 +72,7 @@ const Index: NextPage = () => {
         <Box display="flex" justifyContent="center">
           {user ? (
             <Button variant="outlined" onClick={handleOpen}>
-              Create Room
+              ルームを作る
             </Button>
           ) : (
             <Button
@@ -79,7 +80,7 @@ const Index: NextPage = () => {
               startIcon={<TwitterIcon />}
               onClick={handleSignin}
             >
-              Signin using Twitter
+              ツイッターでログイン
             </Button>
           )}
         </Box>
@@ -89,7 +90,7 @@ const Index: NextPage = () => {
           handleCreateRoom={handleCreateRoom}
         />
       </Box>
-    </>
+    </SnackbarProvider>
   );
 };
 

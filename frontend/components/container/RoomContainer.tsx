@@ -25,15 +25,19 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
     onAuthStateChanged(!!user, loadingUser);
   }, [user, loadingUser, onAuthStateChanged]);
 
-  const handleJoin = async () => {
+  const handleJoin = async (anonymously: boolean) => {
     if (user) {
-      const member: OMember = {
-        displayName: user.displayName,
-        photoUrl: user.photoUrl,
-        isEnabled: true,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      };
-      await writeMember(user.id, room.id, member);
+      if (anonymously) {
+        const member: OMember = {
+          displayName: user.displayName,
+          photoUrl: user.photoUrl,
+          isEnabled: true,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        };
+        await writeMember(user.id, room.id, member);
+      } else {
+        console.log('join anonymously!');
+      }
     }
   };
 
@@ -54,6 +58,13 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
     }
   };
 
+  const handleTweet = () => {
+    const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${room.id}`;
+    const encodedUri = encodeURI(roomUrl);
+    const uri = `https://twitter.com/intent/tweet?url=${encodedUri}`;
+    if (!window.open(uri)) window.location.href = uri;
+  };
+
   return (
     <>
       <AppBar loadingUser={loadingUser} user={user} />
@@ -71,6 +82,7 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
             title={room.name || ''}
             members={members}
             onClickLeave={handleLeave}
+            handleTweet={handleTweet}
           />
           {user && (
             <MessageList roomId={room.id} uid={user.id} messages={messages} />

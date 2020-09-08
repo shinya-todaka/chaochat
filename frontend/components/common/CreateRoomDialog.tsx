@@ -12,6 +12,7 @@ import {
   Button,
   Radio,
 } from '@material-ui/core';
+import { useSnackbar } from 'contexts/SnackBarContext';
 import Link from 'next/link';
 import { TwitterIcon } from 'components/common/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -81,9 +82,12 @@ const CreateRoom: FC<{
 const Complete: FC<{ roomId: string }> = ({ roomId }) => {
   const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${roomId}`;
   const classes = useStyles();
+  const { showSnackbar } = useSnackbar();
   const handleWriteToClipboard = async () => {
     await navigator.clipboard.writeText(roomUrl);
+    showSnackbar('urlをコピーしました!');
   };
+
   const handleTweet = () => {
     const encodedUri = encodeURI(roomUrl);
     const uri = `https://twitter.com/intent/tweet?url=${encodedUri}`;
