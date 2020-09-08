@@ -6,6 +6,8 @@ import ToolBar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
+import AvatarGroup from '@material-ui/lab/AvatarGroup';
+import Avatar from '@material-ui/core/Avatar';
 
 const RoomHeader: FC<{
   title: string;
@@ -20,7 +22,12 @@ const RoomHeader: FC<{
             <Typography>{title}</Typography>
           </Box>
           <Box flexGrow={1} />
-          <GroupAvatars members={members} />
+          <AvatarGroup>
+            <Avatar
+              alt="profile image"
+              src="https://pbs.twimg.com/profile_images/1135105195707211777/Z4YGhnSp_400x400.jpg"
+            />
+          </AvatarGroup>
           <Button onClick={onClickLeave}>退出</Button>
         </Box>
       </ToolBar>
