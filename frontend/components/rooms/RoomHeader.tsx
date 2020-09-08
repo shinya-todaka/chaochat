@@ -6,8 +6,6 @@ import ToolBar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
-import AvatarGroup from '@material-ui/lab/AvatarGroup';
-import Avatar from '@material-ui/core/Avatar';
 
 const RoomHeader: FC<{
   title: string;

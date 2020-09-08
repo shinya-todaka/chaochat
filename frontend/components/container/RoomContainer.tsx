@@ -19,7 +19,7 @@ import { OMessage } from 'models/message';
 const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
   const { loadingUser, user } = useUser();
   const { onAuthStateChanged } = useAuthDialog();
-  const { isInRoom, members, messages } = useRoom(user?.id, room.id);
+  const { isInRoom, members, messages } = useRoom(user?.id || null, room.id);
 
   useEffect(() => {
     onAuthStateChanged(!!user, loadingUser);

@@ -19,7 +19,8 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"allowJs": true,
-		"baseUrl": "."
+		"baseUrl": ".",
+		"skipLibCheck": true
 	},
 	"compileOnSave": true,
 	"include": [

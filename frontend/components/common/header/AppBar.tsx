@@ -4,6 +4,7 @@ import ToolBar from '@material-ui/core/Toolbar';
 import { Typography, makeStyles } from '@material-ui/core';
 import RightBarItem from 'components/common/header/RightBarButtonItem';
 import Box from '@material-ui/core/Box';
+import Link from 'next/link';
 import { User } from 'models/user';
 
 const useStyles = makeStyles((theme) => ({
