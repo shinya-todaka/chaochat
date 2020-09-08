@@ -12,12 +12,16 @@ import {
   Button,
   Radio,
 } from '@material-ui/core';
+import Link from 'next/link';
 import { TwitterIcon } from 'components/common/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   formControl: {
     margin: '10px',
+  },
+  linkRoom: {
+    textDecoration: 'none',
   },
 });
 
@@ -41,18 +45,18 @@ const CreateRoom: FC<{
 
   return (
     <>
-      <DialogTitle>set roon name?</DialogTitle>
+      <DialogTitle>ルームの名前を設定しますか？</DialogTitle>
       <FormControl className={classes.formControl}>
         <RadioGroup row className={classes.formControl}>
           <FormControlLabel
             control={<Radio />}
-            label="no"
+            label="いいえ"
             checked={!isNeedRoomName}
             onChange={handleChange}
           />
           <FormControlLabel
             control={<Radio />}
-            label="yes"
+            label="はい"
             checked={isNeedRoomName}
             onChange={handleChange}
           />
@@ -61,31 +65,44 @@ const CreateRoom: FC<{
       <DialogContent hidden={!isNeedRoomName}>
         <TextField
           margin="dense"
-          label="Room Name"
+          label="ルーム名"
           onChange={({ target: { value } }) => setName(value)}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={() => completion(name)} disabled={!isEnableCreate()}>
-          Create Room
+          ルームを作成
         </Button>
       </DialogActions>
     </>
   );
 };
 
-const TweetInvitation: FC<{ roomId: string }> = ({ roomId }) => {
-  const HOST = process.env.NEXT_PUBLIC_HOST;
+const Complete: FC<{ roomId: string }> = ({ roomId }) => {
+  const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${roomId}`;
+  const classes = useStyles();
+  const handleWriteToClipboard = async () => {
+    await navigator.clipboard.writeText(roomUrl);
+  };
+  const handleTweet = () => {
+    const encodedUri = encodeURI(roomUrl);
+    const uri = `https://twitter.com/intent/tweet?url=${encodedUri}`;
+    if (!window.open(uri)) window.location.href = uri;
+  };
 
   return (
     <>
-      <DialogTitle>Success create room!</DialogTitle>
+      <DialogTitle>ルームの作成に成功しました！</DialogTitle>
       <DialogContent>
-        <DialogContentText>id: {roomId}</DialogContentText>
-        <DialogContentText>{`url: ${HOST}/rooms/${roomId}`}</DialogContentText>
+        <Link href={roomUrl}>
+          <a className={classes.linkRoom}>ルームに移動する</a>
+        </Link>
       </DialogContent>
       <DialogActions>
-        <Button startIcon={<TwitterIcon />}>Tweet</Button>
+        <Button startIcon={<TwitterIcon />} onClick={handleTweet}>
+          ツイートする
+        </Button>
+        <Button onClick={handleWriteToClipboard}>urlをコピー</Button>
       </DialogActions>
     </>
   );
@@ -114,7 +131,7 @@ const CreateRoomDialog: FC<{
       aria-labelledby="simple-dialog-title"
     >
       {roomId ? (
-        <TweetInvitation roomId={roomId} />
+        <Complete roomId={roomId} />
       ) : (
         <CreateRoom completion={createRoomCompletion} />
       )}

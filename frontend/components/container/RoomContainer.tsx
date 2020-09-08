@@ -25,10 +25,6 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
     onAuthStateChanged(!!user, loadingUser);
   }, [user, loadingUser, onAuthStateChanged]);
 
-  useEffect(() => {
-    console.log('members changed!!!', members.length);
-  }, [members]);
-
   const handleJoin = async () => {
     if (user) {
       const member: OMember = {
@@ -76,10 +72,8 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
             members={members}
             onClickLeave={handleLeave}
           />
-          {user ? (
+          {user && (
             <MessageList roomId={room.id} uid={user.id} messages={messages} />
-          ) : (
-            <></>
           )}
           <Box position="fixed" bottom="0" width="100%" flexGrow={1}>
             {isInRoom ? (

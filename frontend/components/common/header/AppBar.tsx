@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     backgroundColor: theme.palette.primary.main,
   },
+  homeLink: {
+    color: '#ffff',
+    textDecoration: 'none',
+  },
 }));
 
 const Header: FC<{ loadingUser: boolean; user: User | null }> = ({
@@ -25,7 +29,9 @@ const Header: FC<{ loadingUser: boolean; user: User | null }> = ({
     <AppBar position="static" className={classes.root} elevation={0}>
       <ToolBar variant="dense">
         <Box display="flex" flexGrow={1} alignItems="center">
-          <Typography variant="h6">chaochat</Typography>
+          <Link href="/">
+            <a className={classes.homeLink}>chaochat</a>
+          </Link>
           <Box flexGrow={1} />
           <RightBarItem loadingUser={loadingUser} user={user} />
         </Box>
