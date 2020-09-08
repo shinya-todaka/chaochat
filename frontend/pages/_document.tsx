@@ -8,12 +8,20 @@ import Document, {
 import React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import { ServerStyleSheets } from '@material-ui/core/styles';
+import theme from 'plugins/theme';
 
 class MyDocument extends Document {
   render() {
     return (
       <Html lang="ja">
-        <Head />
+        <Head>
+          {/* PWA primary color */}
+          <meta name="theme-color" content={theme.palette.primary.main} />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          />
+        </Head>
         <body style={{ minHeight: '100vh', margin: '0px', padding: '0px' }}>
           <Main />
           <NextScript />

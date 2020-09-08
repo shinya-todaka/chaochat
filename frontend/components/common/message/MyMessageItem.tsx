@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { IMessage } from 'models/message';
+import { Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles({
   myMessageItem: {
@@ -26,9 +28,9 @@ const MyMessageItem: FC<{ message: IMessage }> = ({ message }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.myMessageItem}>
-      <div className={classes.messageBubble}>{message.text}</div>
-    </div>
+    <Box className={classes.myMessageItem}>
+      <Box className={classes.messageBubble}>{message.text}</Box>
+    </Box>
   );
 };
 
