@@ -5,6 +5,7 @@ import 'firebase/auth';
 import readRoom from 'services/read-room';
 import RoomContainer from 'components/container/RoomContainer';
 import Head from 'components/common/Head';
+import TextFieldDialogProvider from 'contexts/TextFieldDialogContext';
 
 const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
   if (!room) {
@@ -24,7 +25,9 @@ const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
         url={roomUrl}
       />
       <SigninDialogProvider title="ルームに参加するためにログインしてください">
-        <RoomContainer room={room} />
+        <TextFieldDialogProvider>
+          <RoomContainer room={room} />
+        </TextFieldDialogProvider>
       </SigninDialogProvider>
     </>
   );

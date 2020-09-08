@@ -8,7 +8,6 @@ import Button from '@material-ui/core/Button';
 import { Typography, Tooltip } from '@material-ui/core';
 import PersonAdd from '@material-ui/icons/PersonAdd';
 import IconButton from '@material-ui/core/IconButton';
-import ToolTip from '@material-ui/core/Tooltip';
 
 const RoomHeader: FC<{
   title: string;
@@ -25,6 +24,7 @@ const RoomHeader: FC<{
           </Box>
           <Box flexGrow={1} />
           <GroupAvatars members={members} />
+          <Button onClick={onClickLeave}>退出</Button>
           <Tooltip title="urlをツイートする">
             <IconButton onClick={handleTweet}>
               <PersonAdd />

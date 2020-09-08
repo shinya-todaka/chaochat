@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import ToolBar from '@material-ui/core/Toolbar';
-import { Typography, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import RightBarItem from 'components/common/header/RightBarButtonItem';
 import Box from '@material-ui/core/Box';
 import Link from 'next/link';

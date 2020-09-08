@@ -15,11 +15,13 @@ import writeMessage from 'services/write-message';
 import JoinRoomFooter from 'components/common/footer/JoinRoomFooter';
 import Input from 'components/common/footer/Input';
 import { OMessage } from 'models/message';
+import { useTextFieldDialog } from 'contexts/TextFieldDialogContext';
 
 const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
   const { loadingUser, user } = useUser();
   const { onAuthStateChanged } = useAuthDialog();
   const { isInRoom, members, messages } = useRoom(user?.id || null, room.id);
+  const { showDialog } = useTextFieldDialog();
 
   useEffect(() => {
     onAuthStateChanged(!!user, loadingUser);
@@ -27,7 +29,7 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
 
   const handleJoin = async (anonymously: boolean) => {
     if (user) {
-      if (anonymously) {
+      if (!anonymously) {
         const member: OMember = {
           displayName: user.displayName,
           photoUrl: user.photoUrl,
@@ -36,7 +38,22 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
         };
         await writeMember(user.id, room.id, member);
       } else {
-        console.log('join anonymously!');
+        const validator = (text: string) =>
+          text.length > 0 && text.length <= 30;
+        showDialog({
+          title: '名前を決めてください',
+          validator,
+          actionTitle: '決定',
+          action: async (name) => {
+            const member: OMember = {
+              displayName: name,
+              photoUrl: null,
+              isEnabled: true,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            };
+            await writeMember(user.id, room.id, member);
+          },
+        });
       }
     }
   };
