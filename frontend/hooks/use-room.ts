@@ -5,14 +5,14 @@ import { IMessage } from 'models/message';
 
 const useRoom = (
   uid: string | null,
-  roomId: string,
+  roomId: string | null,
 ): {
   isInRoom: boolean;
   members: IMember[];
   messages: IMessage[];
 } => {
-  const { members, isInRoom, isMembersLoading } = useMembers(uid, roomId);
-  const { messages } = useMessages(isInRoom, roomId);
+  const { members, isInRoom } = useMembers(uid, roomId);
+  const { messages } = useMessages(roomId);
 
   return {
     isInRoom,

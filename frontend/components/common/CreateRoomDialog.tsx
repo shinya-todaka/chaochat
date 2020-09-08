@@ -32,8 +32,11 @@ const CreateRoom: FC<{
     setIsNeedRoomName(!isNeedRoomName);
   };
 
+  const roomNameValidator = (text: string) =>
+    text.length > 0 && text.length < 30;
+
   const isEnableCreate = (): boolean => {
-    return !isNeedRoomName || Boolean(name);
+    return !isNeedRoomName || roomNameValidator(name);
   };
 
   return (

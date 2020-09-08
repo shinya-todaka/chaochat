@@ -8,8 +8,7 @@ interface MessagesDictionary {
 }
 
 const useMessages = (
-  isReady: boolean,
-  roomId: string,
+  roomId: string | null,
 ): { messages: IMessage[]; loading: boolean; error: Error | null } => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -17,19 +16,20 @@ const useMessages = (
 
   useEffect(() => {
     let unmounted = false;
-    const db = firebase.firestore();
-    const query = db
-      .collection('message')
-      .doc('v1')
-      .collection('rooms')
-      .doc(roomId)
-      .collection('messages')
-      .orderBy('createdAt')
-      .withConverter(messageConverter);
+    const messagesDictionary: MessagesDictionary = {};
 
     let unsubscribe: () => void | undefined;
-    if (!unmounted && isReady) {
-      const messagesDictionary: MessagesDictionary = {};
+    if (!unmounted && roomId) {
+      const db = firebase.firestore();
+      const query = db
+        .collection('message')
+        .doc('v1')
+        .collection('rooms')
+        .doc(roomId)
+        .collection('messages')
+        .orderBy('createdAt')
+        .withConverter(messageConverter);
+
       console.log('subscribe messages listener');
       unsubscribe = query.onSnapshot(
         { includeMetadataChanges: true },
@@ -78,7 +78,7 @@ const useMessages = (
         unsubscribe();
       }
     };
-  }, [isReady, roomId]);
+  }, [roomId]);
 
   return { messages, loading, error };
 };

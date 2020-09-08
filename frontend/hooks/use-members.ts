@@ -5,7 +5,7 @@ import 'firebase/firestore';
 
 const useMessages = (
   uid: string | null,
-  roomId: string,
+  roomId: string | null,
 ): {
   members: IMember[];
   isInRoom: boolean;
@@ -19,29 +19,30 @@ const useMessages = (
 
   useEffect(() => {
     let unmounted = false;
-    const db = firebase.firestore();
-    const query = db
-      .collection('message')
-      .doc('v1')
-      .collection('rooms')
-      .doc(roomId)
-      .collection('members')
-      .orderBy('createdAt')
-      .where('isEnabled', '==', true)
-      .withConverter(memberConverter);
 
     let unsubscribe: () => void | undefined;
-    if (!unmounted && uid) {
+    if (!unmounted && uid && roomId) {
+      const db = firebase.firestore();
+      const query = db
+        .collection('message')
+        .doc('v1')
+        .collection('rooms')
+        .doc(roomId)
+        .collection('members')
+        .orderBy('createdAt')
+        .where('isEnabled', '==', true)
+        .withConverter(memberConverter);
+
       console.log('subscribe members listener');
-      setIsMembersLoading(true);
       unsubscribe = query.onSnapshot(
         (snapshot) => {
+          setIsMembersLoading(true);
           const membersData: IMember[] = snapshot.docs.map(
             (doc) => doc.data() as IMember,
           );
           const me = membersData.find((member) => member.id === uid);
           setIsInRoom(Boolean(me));
-          setMembers(members);
+          setMembers(membersData);
           setIsMembersLoading(false);
           console.log('read member!!', ...membersData);
         },
@@ -60,7 +61,7 @@ const useMessages = (
         unsubscribe();
       }
     };
-  }, [roomId, uid]);
+  }, [uid, roomId]);
 
   return { members, isInRoom, isMembersLoading, error };
 };

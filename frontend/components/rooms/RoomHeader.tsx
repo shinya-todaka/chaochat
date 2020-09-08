@@ -22,12 +22,7 @@ const RoomHeader: FC<{
             <Typography>{title}</Typography>
           </Box>
           <Box flexGrow={1} />
-          <AvatarGroup>
-            <Avatar
-              alt="profile image"
-              src="https://pbs.twimg.com/profile_images/1135105195707211777/Z4YGhnSp_400x400.jpg"
-            />
-          </AvatarGroup>
+          <GroupAvatars members={members} />
           <Button onClick={onClickLeave}>退出</Button>
         </Box>
       </ToolBar>
