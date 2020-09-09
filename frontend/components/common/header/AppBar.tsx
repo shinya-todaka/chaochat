@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { User } from 'models/user';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
     height: '50px',
     position: 'relative',
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   homeLink: {
     textDecoration: 'none',
   },
-}));
+});
 
 const Header: FC<{ loadingUser: boolean; user: User | null }> = ({
   loadingUser,

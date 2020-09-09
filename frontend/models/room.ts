@@ -4,33 +4,33 @@ export type IRoom = {
   id: string;
   name: string | null;
   members: string[];
+  updatedAt: Date | null;
   createdAt: Date | null;
 };
 
 export type ORoom = {
   name: string | null;
   members: string[];
-  createdAt: firebase.firestore.FieldValue;
+  updatedAt: firebase.firestore.FieldValue;
+  createdAt?: firebase.firestore.FieldValue;
 };
 
 export const roomConverter: firebase.firestore.FirestoreDataConverter<
   IRoom | ORoom
 > = {
   toFirestore: (room: ORoom): firebase.firestore.DocumentData => {
-    return {
-      name: room.name,
-      members: room.members,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    };
+    return room;
   },
   fromFirestore(snapshot: firebase.firestore.QueryDocumentSnapshot): IRoom {
-    const createdAt = snapshot.data().createdAt as firebase.firestore.Timestamp;
-    const room = {
+    const { updatedAt, createdAt, name, members } = snapshot.data();
+    const roomData = {
       id: snapshot.id,
-      createdAt: createdAt.toDate(),
-      ...snapshot.data(),
-    } as IRoom;
+      updatedAt: (updatedAt && updatedAt.toDate()) || null,
+      createdAt: (createdAt && createdAt.toDate()) || null,
+      name,
+      members,
+    };
 
-    return room;
+    return roomData;
   },
 };

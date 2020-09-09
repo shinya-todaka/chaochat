@@ -16,6 +16,7 @@ const writeMember = async (
   const batch = db.batch();
   batch.update(roomDocument, {
     members: firebase.firestore.FieldValue.arrayUnion(uid),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
   });
   batch.set(roomDocument.collection('members').doc(uid), member);
   await batch.commit();

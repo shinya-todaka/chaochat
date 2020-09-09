@@ -4,7 +4,7 @@ import GroupAvatars from 'components/common/GroupAvatars';
 import { IMember } from 'models/member';
 import ToolBar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
-import { Typography, Tooltip, Menu, MenuItem } from '@material-ui/core';
+import { Tooltip, Menu, MenuItem } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import PersonAdd from '@material-ui/icons/PersonAdd';
 import IconButton from '@material-ui/core/IconButton';
@@ -40,13 +40,6 @@ const RoomHeader: FC<{
           <Box mr={2}>
             <GroupAvatars members={members} />
           </Box>
-          <Tooltip title="ルームから退出する">
-            <Box mr={2}>
-              <Button onClick={onClickLeave} variant="outlined">
-                退出
-              </Button>
-            </Box>
-          </Tooltip>
           <IconButton onClick={handleClick}>
             <PersonAdd />
           </IconButton>

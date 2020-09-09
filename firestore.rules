@@ -1,21 +1,71 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
     match /message/{version} {
+
       match /rooms/{room_id} {
         allow read: if true;
-        allow write: if true;
+        allow create: if request.auth != null
+          && request.resource.data.keys().hasOnly(['name','members','updatedAt','createdAt'])
+          && request.resource.data.keys().hasAll(['name','members', 'updatedAt','createdAt'])
+          && isNullOrValidString(request.resource.data.name, 1, 30)
+          && request.resource.data.members == [request.auth.uid]
+          && request.resource.data.updatedAt == request.time
+          && request.resource.data.createdAt == request.time
+
+        allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['updatedAt','members']) 
+          && request.resource.data.members.size() == resource.data.members.size() + 1
+          && request.resource.data.members.size() <= 30
+          && request.resource.data.members[0: request.resource.data.members.size()] == resource.data.members
+          && request.resource.data.members[request.resource.data.members.size() - 1] == request.auth.uid
+          && !exists(documentPath(['rooms',room_id, 'members', request.auth.uid]))
+          && existsAfter(documentPath(['rooms', room_id, 'members', request.auth.uid]))
+          && request.resource.data.updatedAt == request.time;
 
         match /messages/{message_id} {
-          allow read: if request.auth.uid in get(/databases/$(database)/documents/commerce/$(version)/rooms/$(room_id)).data.members;
-          allow write: if request.resource.data.from == request.auth.uid;
+          allow read: if request.auth.uid in get(documentPath(['rooms', room_id])).data.members;
+          allow create: if request.auth.uid in get(documentPath(['rooms', room_id])).data.members
+            && request.resource.data.keys().hasOnly(['from','text','createdAt'])
+            && request.resource.data.keys().hasAll(['from','text','createdAt'])
+            && request.resource.data.from == request.auth.uid
+            && isValidString(request.resource.data.text, 1, 100)
+            && request.resource.data.createdAt == request.time
         }
 
         match /members/{member_id} {
-          allow read: if true;
-          allow write: if request.auth.uid == member_id;
+          allow read: if request.auth != null;
+          allow create: if request.auth.uid == member_id 
+            && request.resource.data.keys().hasOnly(['displayName','photoURL','createdAt','isEnabled'])
+            && request.resource.data.keys().hasAll(['displayName','photoURL', 'createdAt', 'isEnabled'])
+            && isValidString(request.resource.data.displayName, 1, 30)
+            && isNullOrURL(request.resource.data.photoURL)
+            && request.resource.data.createdAt == request.time
+            && request.resource.data.isEnabled 
+            && get(documentPath(['rooms', room_id])).data.updatedAt == request.time;
         }
       }
+
+       function documentPath(paths) {
+          return path([ 
+              ['databases', database, 'documents', 'message', version].join('/'),
+              paths.join('/')
+          ].join('/')) 
+        }
+    }
+
+    function isValidString(text, min, max) {
+      return text is string
+        && min <= text.size()
+        && text.size() <= max;
+    }
+
+    function isNullOrValidString(value, min, max) {
+      return value == null || isValidString(value, min, max)
+    }
+
+    function isNullOrURL(value){ 
+      return value == null || value.matches('^https?://.+$') 
     }
   }
 }

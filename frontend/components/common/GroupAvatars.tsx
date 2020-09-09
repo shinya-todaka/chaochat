@@ -7,10 +7,10 @@ const GroupAvatars: FC<{ members: IMember[] }> = ({ members }) => {
   return (
     <AvatarGroup max={5}>
       {members.map((member) =>
-        member.photoUrl ? (
+        member.photoURL ? (
           <Avatar
             alt={member.displayName}
-            src={member.photoUrl}
+            src={member.photoURL}
             key={member.id}
           />
         ) : (

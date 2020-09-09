@@ -17,11 +17,7 @@ export const messageConverter: firebase.firestore.FirestoreDataConverter<
   IMessage | OMessage
 > = {
   toFirestore: (message: OMessage): firebase.firestore.DocumentData => {
-    return {
-      from: message.from,
-      text: message.text,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    };
+    return message;
   },
   fromFirestore(snapshot: firebase.firestore.QueryDocumentSnapshot): IMessage {
     const { createdAt } = snapshot.data();

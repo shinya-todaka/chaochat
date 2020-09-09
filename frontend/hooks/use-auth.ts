@@ -12,7 +12,7 @@ const useAuth = (): { user: User | null; loadingUser: boolean } => {
       if (authUser) {
         const { displayName, photoURL } = authUser;
         if (displayName && photoURL) {
-          setUser({ id: authUser.uid, displayName, photoUrl: photoURL });
+          setUser({ id: authUser.uid, displayName, photoURL });
         }
       } else {
         setUser(null);

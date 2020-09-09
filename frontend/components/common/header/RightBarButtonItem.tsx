@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Typography from '@material-ui/core/Typography';
 import firebase from 'firebase/app';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
@@ -54,12 +53,12 @@ const RightBarItem: FC<{ loadingUser: boolean; user: User | null }> = ({
     return <CircularProgress size={34} className={classes.circular} />;
   }
 
-  if (user?.photoUrl) {
+  if (user?.photoURL) {
     return (
       <Box>
         <IconButton onClick={handleClick} ref={buttonRef} size="small">
           <Avatar
-            src={user.photoUrl}
+            src={user.photoURL}
             style={{
               width: '34px',
               height: '34px',

@@ -17,16 +17,8 @@ import Input from 'components/common/footer/Input';
 import { OMessage } from 'models/message';
 import { useTextFieldDialog } from 'contexts/TextFieldDialogContext';
 import { useSnackbar } from 'contexts/SnackBarContext';
-import { makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    backgroundColor: theme.palette.primary.main,
-  },
-}));
 
 const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
-  const classes = useStyles();
   const { loadingUser, user } = useUser();
   const { onAuthStateChanged } = useAuthDialog();
   const { isInRoom, members, messages } = useRoom(user?.id || null, room.id);
@@ -49,7 +41,7 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
       if (!anonymously) {
         const member: OMember = {
           displayName: user.displayName,
-          photoUrl: user.photoUrl,
+          photoURL: user.photoURL,
           isEnabled: true,
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         };
@@ -64,7 +56,7 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
           action: async (name) => {
             const member: OMember = {
               displayName: name,
-              photoUrl: null,
+              photoURL: null,
               isEnabled: true,
               createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             };

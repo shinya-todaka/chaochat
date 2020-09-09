@@ -14,10 +14,10 @@ const useStyles = makeStyles({
 const ProfileImageAvatar: FC<{ member: IMember }> = ({ member }) => {
   const classes = useStyles();
 
-  return member.photoUrl ? (
+  return member.photoURL ? (
     <Avatar
       alt="profile image"
-      src={member.photoUrl}
+      src={member.photoURL}
       className={classes.avatar}
     />
   ) : (

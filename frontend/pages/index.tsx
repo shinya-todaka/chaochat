@@ -46,11 +46,12 @@ const Index: NextPage = () => {
       const room: ORoom = {
         name,
         members: [user.id],
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
       const member: OMember = {
         displayName: user.displayName,
-        photoUrl: user.photoUrl,
+        photoURL: user.photoURL,
         isEnabled: true,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       };

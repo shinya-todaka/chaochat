@@ -14,7 +14,7 @@ const writeUser = async (authUser: firebase.User): Promise<User | null> => {
     const user: User = {
       id: authUser.uid,
       displayName: authUser.displayName,
-      photoUrl: authUser.photoURL,
+      photoURL: authUser.photoURL,
     };
 
     return user;
