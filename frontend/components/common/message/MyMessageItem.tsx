@@ -4,7 +4,7 @@ import { IMessage } from 'models/message';
 import { Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   myMessageItem: {
     display: 'flex',
     flexDirection: 'row-reverse',
@@ -16,13 +16,14 @@ const useStyles = makeStyles({
     width: 'auto',
     maxWidth: '60%',
     padding: '8px',
+    borderColor: theme.palette.primary.main,
     border: 'solid',
     borderWidth: '1px',
     borderRadius: '4px',
     fontSize: '14px',
     overflowWrap: 'break-word',
   },
-});
+}));
 
 const MyMessageItem: FC<{ message: IMessage }> = ({ message }) => {
   const classes = useStyles();

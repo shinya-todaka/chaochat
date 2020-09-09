@@ -17,8 +17,16 @@ import Input from 'components/common/footer/Input';
 import { OMessage } from 'models/message';
 import { useTextFieldDialog } from 'contexts/TextFieldDialogContext';
 import { useSnackbar } from 'contexts/SnackBarContext';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    backgroundColor: theme.palette.primary.main,
+  },
+}));
 
 const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
+  const classes = useStyles();
   const { loadingUser, user } = useUser();
   const { onAuthStateChanged } = useAuthDialog();
   const { isInRoom, members, messages } = useRoom(user?.id || null, room.id);
@@ -96,7 +104,6 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
       <Box
         display="flex"
         justifyContent="center"
-        bgcolor="white"
         alignItems="center"
         flexDirection="column"
         height="calc(100vh - 50px)"

@@ -6,12 +6,15 @@ import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import useInput from 'hooks/ui/useInput';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: theme.palette.primary.main,
+  },
   inputBase: {
     marginLeft: 4,
     flex: 1,
   },
-});
+}));
 
 const Input: FC<{
   sendMessage: (text: string) => void;
@@ -29,7 +32,7 @@ const Input: FC<{
   };
 
   return (
-    <Box display="flex" pb="16px" pl="6px" pr="6px" bgcolor="white">
+    <Box display="flex" pb="16px" pl="6px" pr="6px">
       <TextField
         variant="outlined"
         placeholder="text"

@@ -12,10 +12,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: '50px',
     position: 'relative',
-    backgroundColor: theme.palette.primary.main,
+    color: '#ffff',
   },
   homeLink: {
-    color: '#ffff',
     textDecoration: 'none',
   },
 }));
@@ -27,12 +26,19 @@ const Header: FC<{ loadingUser: boolean; user: User | null }> = ({
   const classes = useStyles();
 
   return (
-    <AppBar position="static" className={classes.root} elevation={0}>
+    <AppBar
+      position="static"
+      className={classes.root}
+      elevation={1}
+      color="transparent"
+    >
       <ToolBar variant="dense">
         <Box display="flex" flexGrow={1} alignItems="center">
           <Link href="/">
             <a className={classes.homeLink}>
-              <Typography variant="h6">chaochat</Typography>
+              <Typography variant="h6" color="primary">
+                chaochat
+              </Typography>
             </a>
           </Link>
           <Box flexGrow={1} />

@@ -3,7 +3,7 @@ import { IMessage } from 'models/message';
 import MessageItem from 'components/common/message/MessageItem';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     overflow: 'auto',
     flex: 'auto',
@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     paddingRight: '4px',
     paddingLeft: '4px',
   },
-});
+}));
 
 const MessageList: FC<{
   roomId: string;

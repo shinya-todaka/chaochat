@@ -10,20 +10,22 @@ import {
   DialogActions,
   Button,
   Radio,
+  Typography,
 } from '@material-ui/core';
 import { useSnackbar } from 'contexts/SnackBarContext';
 import Link from 'next/link';
 import { TwitterIcon } from 'components/common/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: '10px',
   },
   linkRoom: {
+    color: theme.palette.secondary.main,
     textDecoration: 'none',
   },
-});
+}));
 
 const CreateRoom: FC<{
   completion: (name: string) => void;
@@ -45,7 +47,11 @@ const CreateRoom: FC<{
 
   return (
     <>
-      <DialogTitle>ルームの名前を設定しますか？</DialogTitle>
+      <DialogTitle>
+        <Typography variant="subtitle1">
+          ルームの名前を設定しますか？
+        </Typography>
+      </DialogTitle>
       <FormControl className={classes.formControl}>
         <RadioGroup row className={classes.formControl}>
           <FormControlLabel
@@ -64,14 +70,18 @@ const CreateRoom: FC<{
       </FormControl>
       <DialogContent hidden={!isNeedRoomName}>
         <TextField
-          margin="dense"
           label="ルーム名"
           onChange={({ target: { value } }) => setName(value)}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => completion(name)} disabled={!isEnableCreate()}>
-          ルームを作成
+        <Button
+          onClick={() => completion(name)}
+          disabled={!isEnableCreate()}
+          color="secondary"
+          variant="outlined"
+        >
+          作成
         </Button>
       </DialogActions>
     </>
@@ -95,7 +105,11 @@ const Complete: FC<{ roomId: string }> = ({ roomId }) => {
 
   return (
     <>
-      <DialogTitle>ルームの作成に成功しました！</DialogTitle>
+      <DialogTitle>
+        <Typography variant="subtitle1">
+          ルームの作成に成功しました！
+        </Typography>
+      </DialogTitle>
       <DialogContent>
         <Link href={roomUrl}>
           <a className={classes.linkRoom}>ルームに移動する</a>
