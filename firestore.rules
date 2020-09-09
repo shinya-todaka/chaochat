@@ -1,8 +1,21 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
+    match /message/{version} {
+      match /rooms/{room_id} {
+        allow read: if true;
+        allow write: if true;
+
+        match /messages/{message_id} {
+          allow read: if request.auth.uid in get(/databases/$(database)/documents/commerce/$(version)/rooms/$(room_id)).data.members;
+          allow write: if request.resource.data.from == request.auth.uid;
+        }
+
+        match /members/{member_id} {
+          allow read: if true;
+          allow write: if request.auth.uid == member_id;
+        }
+      }
     }
   }
 }

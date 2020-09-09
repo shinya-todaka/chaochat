@@ -5,17 +5,28 @@ import useMember from 'hooks/use-member';
 import Box from '@material-ui/core/Box';
 import ProfileImageAvatar from 'components/common/ProfileImageAvatar';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: '6px',
+    marginLeft: '4px',
+    paddingRight: '10px',
+  },
   messageBubble: {
-    border: 'solid',
-    borderWidth: '1px',
+    backgroundColor: theme.palette.primary.main,
+    minWidth: '30px',
+    color: '#fff',
     width: 'auto',
-    padding: '8px',
-    borderRadius: '4px',
+    paddingTop: '6px',
+    paddingBottom: '6px',
+    paddingLeft: '12px',
+    paddingRight: '12px',
+    borderRadius: '20px',
     fontSize: '14px',
     overflowWrap: 'break-word',
   },
-});
+}));
 
 const OthersMessageItem: FC<{ roomId: string; message: IMessage }> = ({
   roomId,
@@ -25,12 +36,12 @@ const OthersMessageItem: FC<{ roomId: string; message: IMessage }> = ({
   const { member } = useMember(roomId, message.from);
 
   return member ? (
-    <Box display="flex" flexDirection="row" mt="6px" ml="4px" pr="10px">
+    <Box className={classes.root}>
       <Box mr="5px">
         <ProfileImageAvatar member={member} />
       </Box>
       <Box maxWidth="60%">
-        <Box mb="2px" fontSize="14px">
+        <Box mb="2px" fontSize="10px" fontWeight="fontWeightBold">
           {member.displayName}
         </Box>
         <Box className={classes.messageBubble}>{message.text} </Box>

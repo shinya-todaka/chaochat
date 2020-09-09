@@ -8,6 +8,7 @@ interface MessagesDictionary {
 }
 
 const useMessages = (
+  isInRoom: boolean,
   roomId: string | null,
 ): { messages: IMessage[]; loading: boolean; error: Error | null } => {
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -19,7 +20,7 @@ const useMessages = (
     const messagesDictionary: MessagesDictionary = {};
 
     let unsubscribe: () => void | undefined;
-    if (!unmounted && roomId) {
+    if (!unmounted && roomId && isInRoom) {
       const db = firebase.firestore();
       const query = db
         .collection('message')
@@ -78,7 +79,7 @@ const useMessages = (
         unsubscribe();
       }
     };
-  }, [roomId]);
+  }, [roomId, isInRoom]);
 
   return { messages, loading, error };
 };

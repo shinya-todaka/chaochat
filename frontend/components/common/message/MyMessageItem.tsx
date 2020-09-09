@@ -14,14 +14,17 @@ const useStyles = makeStyles((theme) => ({
   },
   messageBubble: {
     width: 'auto',
+    minWidth: '30px',
     maxWidth: '60%',
-    padding: '8px',
-    borderColor: theme.palette.primary.main,
-    border: 'solid',
-    borderWidth: '1px',
-    borderRadius: '4px',
+    paddingTop: '6px',
+    paddingBottom: '6px',
+    paddingLeft: '12px',
+    paddingRight: '12px',
+    backgroundColor: '#E7ECF0',
+    color: '#000',
+    borderRadius: '20px',
     fontSize: '14px',
-    overflowWrap: 'break-word',
+    wordWrap: 'break-word',
   },
 }));
 

@@ -5,9 +5,9 @@ import { IMember } from 'models/member';
 
 const useStyles = makeStyles({
   avatar: {
-    borderRadius: '16px',
-    width: '32px',
-    height: '32px',
+    borderRadius: '14px',
+    width: '28px',
+    height: '28px',
   },
 });
 

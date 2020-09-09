@@ -19,9 +19,11 @@ const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
     <>
       <Head
         title="chaochat"
-        description="匿名で参加できるチャット"
+        description="とくめいで参加できるグループチャット"
         keyword="chaochat"
         image={imageUrl}
+        imageWidth="1200"
+        imageHeight="630"
         url={roomUrl}
       />
       <SigninDialogProvider title="ルームに参加するためにログインしてください">

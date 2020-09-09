@@ -37,6 +37,13 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
     onAuthStateChanged(!!user, loadingUser);
   }, [user, loadingUser, onAuthStateChanged]);
 
+  useEffect(() => {
+    const scrollArea = document.getElementById('scroll-area');
+    if (scrollArea) {
+      scrollArea.scrollTop = scrollArea.scrollHeight;
+    }
+  }, [messages]);
+
   const handleJoin = async (anonymously: boolean) => {
     if (user) {
       if (!anonymously) {

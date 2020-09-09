@@ -12,7 +12,7 @@ const useRoom = (
   messages: IMessage[];
 } => {
   const { members, isInRoom } = useMembers(uid, roomId);
-  const { messages } = useMessages(roomId);
+  const { messages } = useMessages(isInRoom, roomId);
 
   return {
     isInRoom,
