@@ -11,7 +11,7 @@ const useStyles = makeStyles({
 const TwitterIcon: FC = () => {
   const classes = useStyles();
 
-  return <Twitter className={classes.twitter} />;
+  return <Twitter className={classes.twitter} fontSize="small" />;
 };
 
 export { TwitterIcon };

@@ -6,6 +6,7 @@ import readRoom from 'services/read-room';
 import RoomContainer from 'components/container/RoomContainer';
 import Head from 'components/common/Head';
 import TextFieldDialogProvider from 'contexts/TextFieldDialogContext';
+import SnackBarProvider from 'contexts/SnackBarContext';
 
 const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
   if (!room) {
@@ -28,7 +29,9 @@ const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
       />
       <SigninDialogProvider title="ルームに参加するためにログインしてください">
         <TextFieldDialogProvider>
-          <RoomContainer room={room} />
+          <SnackBarProvider>
+            <RoomContainer room={room} />
+          </SnackBarProvider>
         </TextFieldDialogProvider>
       </SigninDialogProvider>
     </>

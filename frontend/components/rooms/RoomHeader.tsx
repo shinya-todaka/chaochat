@@ -1,13 +1,17 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Box from '@material-ui/core/Box';
 import GroupAvatars from 'components/common/GroupAvatars';
 import { IMember } from 'models/member';
 import ToolBar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
-import { Typography, Tooltip } from '@material-ui/core';
+import { Typography, Tooltip, Menu, MenuItem } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import PersonAdd from '@material-ui/icons/PersonAdd';
 import IconButton from '@material-ui/core/IconButton';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import FileCopy from '@material-ui/icons/FileCopy';
+import { TwitterIcon } from 'components/common/icons';
 
 const RoomHeader: FC<{
   title: string;
@@ -16,6 +20,15 @@ const RoomHeader: FC<{
   handleTweet: () => void;
   handleCopyUrl: () => void;
 }> = ({ title, members, onClickLeave, handleTweet, handleCopyUrl }) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       <ToolBar variant="dense">
@@ -34,11 +47,37 @@ const RoomHeader: FC<{
               </Button>
             </Box>
           </Tooltip>
-          <Tooltip title="urlをツイートする">
-            <IconButton onClick={handleTweet}>
-              <PersonAdd />
-            </IconButton>
-          </Tooltip>
+          <IconButton onClick={handleClick}>
+            <PersonAdd />
+          </IconButton>
+          <Menu
+            keepMounted
+            getContentAnchorEl={null}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem>
+              <ListItemIcon>
+                <FileCopy fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary="urlをコピー" onClick={handleCopyUrl} />
+            </MenuItem>
+            <MenuItem>
+              <ListItemIcon>
+                <TwitterIcon />
+              </ListItemIcon>
+              <ListItemText primary="urlをツイート" onClick={handleTweet} />
+            </MenuItem>
+          </Menu>
         </Box>
       </ToolBar>
     </AppBar>
