@@ -18,7 +18,7 @@ const RoomHeader: FC<{
   members: IMember[];
   onClickLeave: () => void;
   handleTweet: () => void;
-  handleCopyUrl: () => void;
+  handleCopyUrl: () => Promise<void>;
 }> = ({ title, members, onClickLeave, handleTweet, handleCopyUrl }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -65,17 +65,22 @@ const RoomHeader: FC<{
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem>
+            <MenuItem onClick={() => handleCopyUrl().then(() => handleClose())}>
               <ListItemIcon>
                 <FileCopy fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="urlをコピー" onClick={handleCopyUrl} />
+              <ListItemText primary="urlをコピー" />
             </MenuItem>
-            <MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleClose();
+                handleTweet();
+              }}
+            >
               <ListItemIcon>
                 <TwitterIcon />
               </ListItemIcon>
-              <ListItemText primary="urlをツイート" onClick={handleTweet} />
+              <ListItemText primary="urlをツイート" />
             </MenuItem>
           </Menu>
         </Box>
