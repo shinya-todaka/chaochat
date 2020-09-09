@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateRoom: FC<{
-  completion: (name: string) => void;
+  completion: (name: string | null) => void;
 }> = ({ completion }) => {
   const classes = useStyles();
   const [name, setName] = useState('');
@@ -43,6 +43,10 @@ const CreateRoom: FC<{
 
   const isEnableCreate = (): boolean => {
     return !isNeedRoomName || roomNameValidator(name);
+  };
+
+  const handleCreateRoom = () => {
+    completion(isNeedRoomName ? name : null);
   };
 
   return (
@@ -76,7 +80,7 @@ const CreateRoom: FC<{
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={() => completion(name)}
+          onClick={handleCreateRoom}
           disabled={!isEnableCreate()}
           color="secondary"
           variant="outlined"
@@ -128,11 +132,11 @@ const Complete: FC<{ roomId: string }> = ({ roomId }) => {
 const CreateRoomDialog: FC<{
   open: boolean;
   handleClose: () => void;
-  handleCreateRoom: (name: string) => Promise<string | null>;
+  handleCreateRoom: (name: string | null) => Promise<string | null>;
 }> = ({ open, handleClose, handleCreateRoom }) => {
   const [roomId, setRoomId] = useState<string | null>(null);
 
-  const createRoomCompletion = async (name: string) => {
+  const createRoomCompletion = async (name: string | null) => {
     try {
       const theRoomId = await handleCreateRoom(name);
       setRoomId(theRoomId);

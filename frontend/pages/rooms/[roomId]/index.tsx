@@ -49,6 +49,7 @@ export async function getServerSideProps(
   try {
     const room = await readRoom(roomId);
     if ('createdAt' in room) room.createdAt = null;
+    if ('updatedAt' in room) room.updatedAt = null;
 
     return {
       props: { room },

@@ -13,19 +13,21 @@ service cloud.firestore {
           && request.resource.data.members == [request.auth.uid]
           && request.resource.data.updatedAt == request.time
           && request.resource.data.createdAt == request.time
+          && !exists(documentPath(['rooms', room_id, 'members', request.auth.uid]))
+          && existsAfter(documentPath(['rooms', room_id, 'members', request.auth.uid]))
 
         allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['updatedAt','members']) 
           && request.resource.data.members.size() == resource.data.members.size() + 1
           && request.resource.data.members.size() <= 30
-          && request.resource.data.members[0: request.resource.data.members.size()] == resource.data.members
+          && request.resource.data.members[0: request.resource.data.members.size() - 1] == resource.data.members
           && request.resource.data.members[request.resource.data.members.size() - 1] == request.auth.uid
           && !exists(documentPath(['rooms',room_id, 'members', request.auth.uid]))
           && existsAfter(documentPath(['rooms', room_id, 'members', request.auth.uid]))
           && request.resource.data.updatedAt == request.time;
 
         match /messages/{message_id} {
-          allow read: if request.auth.uid in get(documentPath(['rooms', room_id])).data.members;
-          allow create: if request.auth.uid in get(documentPath(['rooms', room_id])).data.members
+          allow read: if exists(documentPath(['rooms', room_id, 'members', request.auth.uid]));
+          allow create: if exists(documentPath(['rooms', room_id,'members',request.auth.uid]))
             && request.resource.data.keys().hasOnly(['from','text','createdAt'])
             && request.resource.data.keys().hasAll(['from','text','createdAt'])
             && request.resource.data.from == request.auth.uid
@@ -42,7 +44,7 @@ service cloud.firestore {
             && isNullOrURL(request.resource.data.photoURL)
             && request.resource.data.createdAt == request.time
             && request.resource.data.isEnabled 
-            && get(documentPath(['rooms', room_id])).data.updatedAt == request.time;
+            && getAfter(documentPath(['rooms', room_id])).data.updatedAt == request.time;
         }
       }
 

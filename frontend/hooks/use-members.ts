@@ -40,8 +40,11 @@ const useMessages = (
           const membersData: IMember[] = snapshot.docs.map(
             (doc) => doc.data() as IMember,
           );
-          const me = membersData.find((member) => member.id === uid);
-          setIsInRoom(Boolean(me));
+          if (!snapshot.metadata.hasPendingWrites) {
+            const me = membersData.find((member) => member.id === uid);
+            setIsInRoom(Boolean(me));
+          }
+
           setMembers(membersData);
           setIsMembersLoading(false);
           console.log('read member!!', ...membersData);
