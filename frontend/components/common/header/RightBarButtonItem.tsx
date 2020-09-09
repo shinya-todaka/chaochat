@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { User } from 'models/user';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   wrapper: {
     margin: '1',
     position: 'relative',
@@ -20,9 +20,9 @@ const useStyles = makeStyles({
     alignItems: 'center',
   },
   circular: {
-    color: '#fff',
+    color: theme.palette.primary.main,
   },
-});
+}));
 
 const RightBarItem: FC<{ loadingUser: boolean; user: User | null }> = ({
   loadingUser,
@@ -89,11 +89,7 @@ const RightBarItem: FC<{ loadingUser: boolean; user: User | null }> = ({
     );
   }
 
-  return (
-    <Button color="inherit" onClick={handleSignin}>
-      <Typography>ログイン</Typography>
-    </Button>
-  );
+  return <Button onClick={handleSignin}>ログイン</Button>;
 };
 
 export default RightBarItem;

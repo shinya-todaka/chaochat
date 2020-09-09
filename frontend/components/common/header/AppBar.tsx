@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: '50px',
     position: 'relative',
-    color: '#ffff',
   },
   homeLink: {
     textDecoration: 'none',

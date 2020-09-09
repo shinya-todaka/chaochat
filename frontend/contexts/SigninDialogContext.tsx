@@ -2,6 +2,7 @@ import { createContext, useState, useCallback, useContext, FC } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -41,7 +42,9 @@ const SigninDialogProvider: FC<{ children: any; title: string }> = ({
         {children}
       </SigninDialogContext.Provider>
       <Dialog open={open}>
-        <DialogTitle>{title}</DialogTitle>
+        <DialogTitle>
+          <Typography>{title}</Typography>
+        </DialogTitle>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>キャンセル</Button>
           <Button onClick={handleSignin} color="primary">
