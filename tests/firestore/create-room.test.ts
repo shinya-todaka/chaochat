@@ -1,22 +1,86 @@
-import * as firebase from "@firebase/testing";
-import FirestoreTestProvider from "../ruleHelper";
+/* eslint-disable jest/expect-expect */
+/* eslint-disable camelcase */
+import * as firebase from '@firebase/testing';
+import { firestore } from 'firebase';
+import { firestore as admin_firestore } from 'firebase-admin';
+import * as fs from 'fs';
+import { useReducer } from 'react';
+import { ORoom } from '../../frontend/models/room';
+import { OMember } from '../../frontend/models/member';
 
-const testName = 'create-room-member'
-const provider = new FirestoreTestProvider(testName)
+const projectId = 'test-chaochat';
+const uid = 'alice';
 
-describe('create-room', () => {
-  beforeEach(async () => {
-    provider.increment()
-    await provider.loadRules()
-  })
+const rules = fs.readFileSync('firestore.rules', 'utf8');
+firebase.loadFirestoreRules({
+  projectId,
+  rules,
+});
+
+describe('test', () => {
+  let userFirestore: firestore.Firestore;
+  let adminFirestore: admin_firestore.Firestore;
+  const roomPath = 'message/v1/rooms/aliceRoom';
+
+  beforeAll(async () => {
+    userFirestore = firebase
+      .initializeTestApp({
+        projectId,
+        auth: { uid },
+      })
+      .firestore();
+
+    // user SDKとadmin SDKのFirestoreは型レベルでは別物だが、initializeAdminAppはuser SDKのFirestoreを返すので無理やりキャスト
+    adminFirestore = (firebase
+      .initializeAdminApp({
+        projectId,
+      })
+      .firestore() as unknown) as admin_firestore.Firestore;
+  });
+
+  afterAll(async () => {
+    await Promise.all(firebase.apps().map((app) => app.delete()));
+  });
 
   afterEach(async () => {
-    await provider.cleanup()
-  })
+    await firebase.clearFirestoreData({
+      projectId,
+    });
+  });
 
-  test('認証していないとroomをgetできない', async () => {
-    const db = provider.getFirestoreWithAuth(undefined)
-    const roomReference = db.collection('message/v1/rooms').doc()
-    await firebase.assertFails(roomReference.set({}))
-  })
-})
+  test('適切なroomだとreateできる', () => {
+    const room: ORoom = {
+      name: 'soccer',
+      members: [uid],
+      createdAt: firestore.FieldValue.serverTimestamp(),
+      updatedAt: firestore.FieldValue.serverTimestamp(),
+    };
+
+    const member: OMember = {
+      displayName: 'shinya',
+      photoURL: null,
+      isEnabled: true,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+    };
+    const roomReference = userFirestore.doc(roomPath);
+    const batch = userFirestore.batch();
+    batch.set(roomReference, room);
+    batch.set(roomReference.collection('members').doc(uid), member);
+
+    firebase.assertSucceeds(batch.commit());
+  });
+
+  test('roomのfieldどれか一つでもなかったらcrateできない', () => {
+    const room: ORoom = {
+      name: 'soccer',
+      members: [uid],
+      createdAt: firestore.FieldValue.serverTimestamp(),
+      updatedAt: firestore.FieldValue.serverTimestamp(),
+    };
+    Object.keys(room).forEach((key) => {
+      if (key in room) {
+        delete room[key];
+      }
+    });
+  });
+});
