@@ -4,10 +4,11 @@ import * as firebase from '@firebase/testing';
 import { firestore } from 'firebase';
 import { firestore as admin_firestore } from 'firebase-admin';
 import * as fs from 'fs';
+import { v4 as uuid } from 'uuid';
 import { ORoom } from '../../frontend/models/room';
 import { OMember } from '../../frontend/models/member';
 
-const projectId = 'test-chaochat';
+const projectId = `test-${uuid()}`;
 const uid = 'alice';
 
 const rules = fs.readFileSync('firestore.rules', 'utf8');

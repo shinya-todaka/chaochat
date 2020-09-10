@@ -4,11 +4,13 @@ import * as firebase from '@firebase/testing';
 import { firestore } from 'firebase';
 import { firestore as admin_firestore } from 'firebase-admin';
 import * as fs from 'fs';
+import { v4 as uuid } from 'uuid';
 import { ORoom } from '../../frontend/models/room';
 import { OMember } from '../../frontend/models/member';
 
-const projectId = 'test-chaochat';
+const projectId = `test-${uuid()}`;
 const uid = 'alice';
+const tomuid = 'tom';
 
 const rules = fs.readFileSync('firestore.rules', 'utf8');
 firebase.loadFirestoreRules({
@@ -17,7 +19,8 @@ firebase.loadFirestoreRules({
 });
 
 describe('test', () => {
-  let userFirestore: firestore.Firestore;
+  let aliceFirestore: firestore.Firestore;
+  let tomFirestore: firestore.Firestore;
   let adminFirestore: admin_firestore.Firestore;
   const roomPath = 'message/v1/rooms/aliceRoom';
 
@@ -29,17 +32,24 @@ describe('test', () => {
   };
 
   const baseMember: OMember = {
-    displayName: 'shinya',
+    displayName: 'alice',
     photoURL: null,
     isEnabled: true,
     createdAt: firestore.FieldValue.serverTimestamp(),
   };
 
   beforeAll(async () => {
-    userFirestore = firebase
+    aliceFirestore = firebase
       .initializeTestApp({
         projectId,
         auth: { uid },
+      })
+      .firestore();
+
+    tomFirestore = firebase
+      .initializeTestApp({
+        projectId,
+        auth: { uid: tomuid },
       })
       .firestore();
 
@@ -49,6 +59,15 @@ describe('test', () => {
         projectId,
       })
       .firestore() as unknown) as admin_firestore.Firestore;
+  });
+
+  beforeEach(async () => {
+    const roomReference = aliceFirestore.doc(roomPath);
+    const batch = aliceFirestore.batch();
+    batch.set(roomReference, baseRoom);
+    batch.set(roomReference.collection('members').doc(uid), baseMember);
+
+    await firebase.assertSucceeds(batch.commit());
   });
 
   afterAll(async () => {
@@ -61,63 +80,15 @@ describe('test', () => {
     });
   });
 
-  test('適切なroomだとcreateできる', async () => {
-    const roomReference = userFirestore.doc(roomPath);
-    const batch = userFirestore.batch();
-    batch.set(roomReference, baseRoom);
-    batch.set(roomReference.collection('members').doc(uid), baseMember);
-
+  test('適切なupdateなのでできる', async () => {
+    const tomMember = { ...baseMember, displayName: 'tom' };
+    const roomReference = tomFirestore.doc(roomPath);
+    const batch = tomFirestore.batch();
+    batch.update(roomReference, {
+      updatedAt: firestore.FieldValue.serverTimestamp(),
+      members: firestore.FieldValue.arrayUnion(tomuid),
+    });
+    batch.set(roomReference.collection('members').doc(tomuid), tomMember);
     await firebase.assertSucceeds(batch.commit());
-  });
-
-  // validation
-  test('nameが空文字だと作れない', async () => {
-    const room = { ...baseRoom, name: '' };
-    console.log(room);
-    const roomReference = userFirestore.doc(roomPath);
-    const batch = userFirestore.batch();
-    batch.set(roomReference, room);
-    batch.set(roomReference.collection('members').doc(uid), baseMember);
-
-    await firebase.assertFails(batch.commit());
-  });
-
-  test('nameが30文字より大きいと作れない', async () => {
-    const room = {
-      ...baseRoom,
-      name: 'アイウエオか聞くけこさしすせそたちつてとなにぬねのは皮膚へほま',
-    };
-    const roomReference = userFirestore.doc(roomPath);
-    const batch = userFirestore.batch();
-    batch.set(roomReference, room);
-    batch.set(roomReference.collection('members').doc(uid), baseMember);
-
-    await firebase.assertFails(batch.commit());
-  });
-
-  test('membersのuidでmemberが同時に作られていない', async () => {
-    const roomReference = userFirestore.doc(roomPath);
-    await firebase.assertFails(roomReference.set(baseRoom));
-  });
-
-  test('updatedAtがないと作れない', async () => {
-    const { updatedAt, ...room } = baseRoom;
-    console.log(room);
-    const roomReference = userFirestore.doc(roomPath);
-    const batch = userFirestore.batch();
-    batch.set(roomReference, room);
-    batch.set(roomReference.collection('members').doc(uid), baseMember);
-
-    await firebase.assertFails(batch.commit());
-  });
-
-  test('createdAtがないので作れない', async () => {
-    const { createdAt, ...room } = baseRoom;
-    const roomReference = userFirestore.doc(roomPath);
-    const batch = userFirestore.batch();
-    batch.set(roomReference, room);
-    batch.set(roomReference.collection('members').doc(uid), baseMember);
-
-    await firebase.assertFails(batch.commit());
   });
 });
