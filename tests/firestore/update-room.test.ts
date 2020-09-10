@@ -224,15 +224,20 @@ describe('test', () => {
   });
 
   test('membersを30人より大きいとupdateできない', async () => {
-    const addingMembers =
-      '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29';
-    await adminFirestore.doc(roomPath).update({ members: [] });
+    const addingMembers = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29'.split(
+      ',',
+    );
+    await adminFirestore
+      .doc(roomPath)
+      .update({ members: firestore.FieldValue.arrayUnion(...addingMembers) });
+    const tomMember = { ...baseMember, displayName: 'tom' };
     const roomReference = tomFirestore.doc(roomPath);
     const batch = tomFirestore.batch();
     batch.update(roomReference, {
-      members: firestore.FieldValue.arrayUnion(uid),
+      updatedAt: firestore.FieldValue.serverTimestamp(),
+      members: firestore.FieldValue.arrayUnion(tomuid),
     });
-    batch.set(roomReference.collection('members').doc(uid), baseMember);
+    batch.set(roomReference.collection('members').doc(tomuid), tomMember);
     await firebase.assertFails(batch.commit());
   });
 });
