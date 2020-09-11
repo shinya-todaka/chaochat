@@ -102,10 +102,8 @@ describe('test', () => {
     const roomReference = userFirestore.doc(roomPath);
     const message = {
       ...baseMessage,
-      text: '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901'.replace(
-        /\n/g,
-        '',
-      ),
+      text:
+        '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901',
     };
     console.log(message);
     await firebase.assertFails(

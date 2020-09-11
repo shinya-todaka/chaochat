@@ -7,6 +7,7 @@ import firebaseConfig from 'firebase-config.json';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from 'plugins/theme';
+import AppBar from 'components/common/header/AppBar';
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
@@ -26,6 +27,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <UserProvider>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <AppBar />
           <Component {...pageProps} />
         </ThemeProvider>
       </UserProvider>

@@ -5,10 +5,10 @@ service cloud.firestore {
     match /message/{version} {
 
       match /rooms/{room_id} {
-        allow read: if true;
+        allow get: if true;
         allow create: if request.auth != null
-          && request.resource.data.keys().hasOnly(['name','members','updatedAt','createdAt'])
-          && request.resource.data.keys().hasAll(['name','members', 'updatedAt','createdAt'])
+          && request.resource.data.keys().hasOnly(['name','members','updatedAt','expiresIn', 'isClosed', 'createdAt'])
+          && request.resource.data.keys().hasAll(['name','members', 'updatedAt','expiresIn', 'isClosed','createdAt'])
           && isNullOrValidString(request.resource.data.name, 1, 30)
           && request.resource.data.members == [request.auth.uid]
           && request.resource.data.updatedAt == request.time
@@ -36,7 +36,7 @@ service cloud.firestore {
         }
 
         match /members/{member_id} {
-          allow read: if request.auth != null;
+          allow read: if true;
           allow create: if request.auth.uid == member_id 
             && request.resource.data.keys().hasOnly(['displayName','photoURL','createdAt','isEnabled'])
             && request.resource.data.keys().hasAll(['displayName','photoURL', 'createdAt', 'isEnabled'])

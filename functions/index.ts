@@ -1,8 +1,13 @@
 import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
 import * as path from 'path';
 import express from 'express';
 import next from 'next';
+import * as firestore from './firestore';
+import { firestoreTtlCallback } from './tasks';
 import ogpImage from './ogpImage';
+
+admin.initializeApp();
 
 const distDir = `${path.relative(process.cwd(), __dirname)}/next`;
 const app = next({
@@ -12,7 +17,7 @@ const app = next({
 
 const handle = app.getRequestHandler();
 
-export const nextjsFunc = functions.https.onRequest(async (req, res) => {
+const nextjsFunc = functions.https.onRequest(async (req, res) => {
   await app.prepare();
   const server = express();
   server.use('/ogpImage', ogpImage);
@@ -26,3 +31,5 @@ export const nextjsFunc = functions.https.onRequest(async (req, res) => {
   });
   server(req, res);
 });
+
+export { nextjsFunc, firestore, firestoreTtlCallback };

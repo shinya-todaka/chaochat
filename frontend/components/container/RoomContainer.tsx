@@ -2,7 +2,6 @@ import React, { FC, useEffect } from 'react';
 import firebase from 'firebase/app';
 import { useUser } from 'contexts/UserContext';
 import useRoom from 'hooks/use-room';
-import AppBar from 'components/common/header/AppBar';
 import Box from '@material-ui/core/Box';
 import { useAuthDialog } from 'contexts/SigninDialogContext';
 import RoomHeader from 'components/rooms/RoomHeader';
@@ -99,37 +98,34 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
   };
 
   return (
-    <>
-      <AppBar loadingUser={loadingUser} user={user} />
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        flexDirection="column"
-        height="calc(100vh - 50px)"
-        overflow="hidden"
-      >
-        <Box display="flex" flexDirection="column" width="100%" height="100%">
-          <RoomHeader
-            title={room.name || ''}
-            members={members}
-            onClickLeave={handleLeave}
-            handleTweet={handleTweet}
-            handleCopyUrl={handleCopyUrl}
-          />
-          {user && (
-            <MessageList roomId={room.id} uid={user.id} messages={messages} />
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      flexDirection="column"
+      height="calc(100vh - 50px)"
+      overflow="hidden"
+    >
+      <Box display="flex" flexDirection="column" width="100%" height="100%">
+        <RoomHeader
+          title={room.name || ''}
+          members={members}
+          onClickLeave={handleLeave}
+          handleTweet={handleTweet}
+          handleCopyUrl={handleCopyUrl}
+        />
+        {user && (
+          <MessageList roomId={room.id} uid={user.id} messages={messages} />
+        )}
+        <Box position="fixed" bottom="0" width="100%" flexGrow={1}>
+          {isInRoom ? (
+            <Input sendMessage={sendMessage} />
+          ) : (
+            <JoinRoomFooter room={room} onClickJoin={handleJoin} />
           )}
-          <Box position="fixed" bottom="0" width="100%" flexGrow={1}>
-            {isInRoom ? (
-              <Input sendMessage={sendMessage} />
-            ) : (
-              <JoinRoomFooter room={room} onClickJoin={handleJoin} />
-            )}
-          </Box>
         </Box>
       </Box>
-    </>
+    </Box>
   );
 };
 

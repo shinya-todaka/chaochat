@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 const Index: NextPage = () => {
   const classes = useStyles();
-  const { user, loadingUser } = useUser();
+  const { user } = useUser();
   const handleSignin = async () => {
     const provider = new firebase.auth.TwitterAuthProvider();
     await firebase.auth().signInWithRedirect(provider);
@@ -46,6 +46,8 @@ const Index: NextPage = () => {
       const room: ORoom = {
         name,
         members: [user.id],
+        expiresIn: 1,
+        isClosed: false,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
@@ -65,7 +67,6 @@ const Index: NextPage = () => {
 
   return (
     <SnackbarProvider>
-      <AppHeader loadingUser={loadingUser} user={user} />
       <Box display="flex" justifyContent="center" flexDirection="column">
         <Box display="flex" justifyContent="center" className={classes.title}>
           <Typography variant="h2">ChaoChat</Typography>

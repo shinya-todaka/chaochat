@@ -145,7 +145,7 @@ describe('test', () => {
     const roomReference = userFirestore.doc(roomPath);
     const batch = userFirestore.batch();
     batch.set(roomReference, baseRoom);
-    const member = { ...baseMember, isEnabled: 'true' };
+    const member = { ...baseMember, isEnabled: false };
     batch.set(roomReference.collection('members').doc(uid), member);
 
     await firebase.assertFails(batch.commit());

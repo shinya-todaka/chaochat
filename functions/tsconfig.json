@@ -19,12 +19,15 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"allowJs": true,
-		"baseUrl": ".",
 		"skipLibCheck": true
 	},
 	"compileOnSave": true,
 	"include": [
-		"**/*",
+		"index.ts",
+		"firestore",
+		"ogpImage",
+		"models",
+		"tasks",
 		".eslintrc.js"
 	]
 }

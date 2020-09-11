@@ -5,8 +5,8 @@ import { makeStyles } from '@material-ui/core';
 import RightBarItem from 'components/common/header/RightBarButtonItem';
 import Box from '@material-ui/core/Box';
 import Link from 'next/link';
-import { User } from 'models/user';
 import Typography from '@material-ui/core/Typography';
+import { useUser } from 'contexts/UserContext';
 
 const useStyles = makeStyles({
   root: {
@@ -18,11 +18,9 @@ const useStyles = makeStyles({
   },
 });
 
-const Header: FC<{ loadingUser: boolean; user: User | null }> = ({
-  loadingUser,
-  user,
-}) => {
+const Header: FC = () => {
   const classes = useStyles();
+  const { user, loadingUser } = useUser();
 
   return (
     <AppBar

@@ -1503,6 +1503,13 @@
     stream-events "^1.0.1"
     xdg-basedir "^4.0.0"
 
+"@google-cloud/tasks@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/tasks/-/tasks-2.1.0.tgz#5ea6d86856e3a1ccf46f41167ead05c9c37599bb"
+  integrity sha512-4I6OFeNmCd6vjPohqIDy8qRPGjCJMq+Of9wC5UxYCUA0EkzCHDvJ6Ed858HUJOZq7AoerehSF93ZFWte3QNtoQ==
+  dependencies:
+    google-gax "^2.1.0"
+
 "@grpc/grpc-js@^0.6.12":
   version "0.6.18"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.6.18.tgz#ba3b3dfef869533161d192a385412a4abd0db127"
@@ -6543,7 +6550,7 @@ google-gax@^1.14.2:
     semver "^6.0.0"
     walkdir "^0.4.0"
 
-google-gax@^2.2.0:
+google-gax@^2.1.0, google-gax@^2.2.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-2.8.0.tgz#e62bb93c0a9255a76f24e180a0f92a58865f3ebb"
   integrity sha512-MPaADY/FHittX5xfOUU2EVqIoE850e+OZ1ys8aO2GnUMaP4U0Bde2wop6kw5sp4fIOjKNlan4GATKAURsYbxSw==

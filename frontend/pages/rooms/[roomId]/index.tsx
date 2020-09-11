@@ -13,6 +13,10 @@ const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
     return <>Something wrong!</>;
   }
 
+  if (room.isClosed) {
+    return <>this room is closed</>;
+  }
+
   const imageUrl = `${process.env.NEXT_PUBLIC_HOST}/ogpImage?title=${room.name}`;
   const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${room.id}`;
 
