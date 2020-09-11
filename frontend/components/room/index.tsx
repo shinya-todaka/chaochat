@@ -7,17 +7,13 @@ import { useAuthDialog } from 'contexts/SigninDialogContext';
 import RoomHeader from 'components/room/RoomHeader';
 import RoomFooter from 'components/room/RoomFooter';
 import MessageList from 'components/common/list/MessageList';
-import { IRoom } from 'models/room';
 import { OMember } from 'models/member';
 import writeMember from 'services/write-member';
 import removeMember from 'services/remove-member';
 import writeMessage from 'services/write-message';
-import JoinRoomFooter from 'components/common/footer/JoinRoomFooter';
-import Input from 'components/common/footer/Input';
 import { OMessage } from 'models/message';
 import { useTextFieldDialog } from 'contexts/TextFieldDialogContext';
 import { useSnackbar } from 'contexts/SnackBarContext';
-import { isUndefined } from 'util';
 
 const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
   const { loadingUser, user } = useUser();
@@ -41,7 +37,7 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
   }, [messages]);
 
   useEffect(() => {
-    console.log('room Changed!');
+    console.log(room);
   }, [room]);
 
   if (!room) {
@@ -129,9 +125,12 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
           handleCopyUrl={handleCopyUrl}
         />
         {user && (
-          <MessageList roomId={room.id} uid={user.id} messages={messages} />
+          <Box overflow="auto" height="100%" id="scroll-area" pb={1}>
+            <MessageList roomId={room.id} uid={user.id} messages={messages} />
+          </Box>
         )}
-        <Box position="fixed" bottom="0" width="100%" flexGrow={1}>
+
+        <Box width="100%" flexGrow={1}>
           <RoomFooter
             isInRoom={isInRoom}
             room={room}

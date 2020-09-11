@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import type { AppProps } from 'next/app';
+import NextApp, { AppProps, AppContext } from 'next/app';
 import UserProvider from 'contexts/UserContext';
-import NextApp, { AppContext } from 'next/app';
+
 import firebase from 'firebase/app';
 import firebaseConfig from 'firebase-config.json';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -10,6 +10,7 @@ import theme from 'plugins/theme';
 import AppBar from 'components/common/header/AppBar';
 import SnackbarProvider from 'contexts/SnackBarContext';
 import TextFieldDialogProvider from 'contexts/TextFieldDialogContext';
+import Container from '@material-ui/core/Container';
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);

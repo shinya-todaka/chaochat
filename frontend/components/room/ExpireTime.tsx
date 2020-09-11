@@ -1,7 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
-import Box from '@material-ui/core/Box';
 import { IRoom } from 'models/room';
-import dayjs from 'dayjs';
 import { Typography } from '@material-ui/core';
 
 const dateDiffToTime = (
