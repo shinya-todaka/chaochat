@@ -3,7 +3,7 @@ import { IRoom } from 'models/room';
 import SigninDialogProvider from 'contexts/SigninDialogContext';
 import 'firebase/auth';
 import readRoom from 'services/read-room';
-import RoomContainer from 'components/container/RoomContainer';
+import Room from 'components/room';
 import Head from 'components/common/Head';
 import TextFieldDialogProvider from 'contexts/TextFieldDialogContext';
 import SnackBarProvider from 'contexts/SnackBarContext';
@@ -34,7 +34,7 @@ const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
       <SigninDialogProvider title="ルームに参加するためにログインしてください">
         <TextFieldDialogProvider>
           <SnackBarProvider>
-            <RoomContainer room={room} />
+            <Room room={room} />
           </SnackBarProvider>
         </TextFieldDialogProvider>
       </SigninDialogProvider>
