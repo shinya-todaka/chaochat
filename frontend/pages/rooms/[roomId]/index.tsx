@@ -5,16 +5,15 @@ import 'firebase/auth';
 import readRoom from 'services/read-room';
 import Room from 'components/room';
 import Head from 'components/common/Head';
-import TextFieldDialogProvider from 'contexts/TextFieldDialogContext';
-import SnackBarProvider from 'contexts/SnackBarContext';
+import Box from '@material-ui/core/Box';
 
 const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
   if (!room) {
-    return <>Something wrong!</>;
-  }
-
-  if (room.isClosed) {
-    return <>this room is closed</>;
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center">
+        ルームがありません!
+      </Box>
+    );
   }
 
   const imageUrl = `${process.env.NEXT_PUBLIC_HOST}/ogpImage?title=${room.name}`;
@@ -32,11 +31,7 @@ const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
         url={roomUrl}
       />
       <SigninDialogProvider title="ルームに参加するためにログインしてください">
-        <TextFieldDialogProvider>
-          <SnackBarProvider>
-            <Room room={room} />
-          </SnackBarProvider>
-        </TextFieldDialogProvider>
+        <Room roomId={room.id} />
       </SigninDialogProvider>
     </>
   );

@@ -8,6 +8,8 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from 'plugins/theme';
 import AppBar from 'components/common/header/AppBar';
+import SnackbarProvider from 'contexts/SnackBarContext';
+import TextFieldDialogProvider from 'contexts/TextFieldDialogContext';
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
@@ -26,9 +28,13 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <>
       <UserProvider>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <AppBar />
-          <Component {...pageProps} />
+          <SnackbarProvider>
+            <TextFieldDialogProvider>
+              <CssBaseline />
+              <AppBar />
+              <Component {...pageProps} />
+            </TextFieldDialogProvider>
+          </SnackbarProvider>
         </ThemeProvider>
       </UserProvider>
     </>

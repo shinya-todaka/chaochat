@@ -17,10 +17,13 @@ import { OMessage } from 'models/message';
 import { useTextFieldDialog } from 'contexts/TextFieldDialogContext';
 import { useSnackbar } from 'contexts/SnackBarContext';
 
-const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
+const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
   const { loadingUser, user } = useUser();
   const { onAuthStateChanged } = useAuthDialog();
-  const { isInRoom, members, messages } = useRoom(user?.id || null, room.id);
+  const { isInRoom, room, members, messages } = useRoom(
+    user?.id || null,
+    roomId,
+  );
   const { showDialog } = useTextFieldDialog();
   const { showSnackbar } = useSnackbar();
 
@@ -34,6 +37,10 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
       scrollArea.scrollTop = scrollArea.scrollHeight;
     }
   }, [messages]);
+
+  if (!room) {
+    return <></>;
+  }
 
   const handleJoin = async (anonymously: boolean) => {
     if (user) {
@@ -109,6 +116,7 @@ const RoomContainer: FC<{ room: IRoom }> = ({ room }) => {
       <Box display="flex" flexDirection="column" width="100%" height="100%">
         <RoomHeader
           title={room.name || ''}
+          room={room}
           members={members}
           onClickLeave={handleLeave}
           handleTweet={handleTweet}

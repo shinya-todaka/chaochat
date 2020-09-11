@@ -12,14 +12,17 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import FileCopy from '@material-ui/icons/FileCopy';
 import { TwitterIcon } from 'components/common/icons';
+import ExpireTime from 'components/room/ExpireTime';
+import { IRoom } from 'models/room';
 
 const RoomHeader: FC<{
   title: string;
+  room: IRoom;
   members: IMember[];
   onClickLeave: () => void;
   handleTweet: () => void;
   handleCopyUrl: () => Promise<void>;
-}> = ({ title, members, onClickLeave, handleTweet, handleCopyUrl }) => {
+}> = ({ title, room, members, onClickLeave, handleTweet, handleCopyUrl }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -35,6 +38,9 @@ const RoomHeader: FC<{
         <Box display="flex" flexGrow={1} alignItems="center" borderBottom={1}>
           <Box ml="18px" fontSize={18} fontWeight="fontWeightBold">
             {title}
+          </Box>
+          <Box ml={2}>
+            <ExpireTime room={room} />
           </Box>
           <Box flexGrow={1} />
           <Box mr={2}>
