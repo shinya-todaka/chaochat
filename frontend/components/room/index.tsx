@@ -5,6 +5,7 @@ import useRoom from 'hooks/use-room';
 import Box from '@material-ui/core/Box';
 import { useAuthDialog } from 'contexts/SigninDialogContext';
 import RoomHeader from 'components/room/RoomHeader';
+import RoomFooter from 'components/room/RoomFooter';
 import MessageList from 'components/common/list/MessageList';
 import { IRoom } from 'models/room';
 import { OMember } from 'models/member';
@@ -16,6 +17,7 @@ import Input from 'components/common/footer/Input';
 import { OMessage } from 'models/message';
 import { useTextFieldDialog } from 'contexts/TextFieldDialogContext';
 import { useSnackbar } from 'contexts/SnackBarContext';
+import { isUndefined } from 'util';
 
 const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
   const { loadingUser, user } = useUser();
@@ -37,6 +39,10 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
       scrollArea.scrollTop = scrollArea.scrollHeight;
     }
   }, [messages]);
+
+  useEffect(() => {
+    console.log('room Changed!');
+  }, [room]);
 
   if (!room) {
     return <></>;
@@ -126,11 +132,12 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
           <MessageList roomId={room.id} uid={user.id} messages={messages} />
         )}
         <Box position="fixed" bottom="0" width="100%" flexGrow={1}>
-          {isInRoom ? (
-            <Input sendMessage={sendMessage} />
-          ) : (
-            <JoinRoomFooter room={room} onClickJoin={handleJoin} />
-          )}
+          <RoomFooter
+            isInRoom={isInRoom}
+            room={room}
+            sendMessage={sendMessage}
+            handleJoin={handleJoin}
+          />
         </Box>
       </Box>
     </Box>

@@ -9,6 +9,10 @@ const RoomFooter: FC<{
   sendMessage: (text: string) => void;
   handleJoin: (anonymously: boolean) => void;
 }> = ({ isInRoom, room, sendMessage, handleJoin }) => {
+  if (room.isClosed) {
+    return <></>;
+  }
+
   if (isInRoom) {
     return <Input sendMessage={sendMessage} />;
   }

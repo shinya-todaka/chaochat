@@ -42,7 +42,7 @@ const Home: FC = () => {
       const room: ORoom = {
         name,
         members: [user.id],
-        expiresIn: 1,
+        expiresIn: 5,
         isClosed: false,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
