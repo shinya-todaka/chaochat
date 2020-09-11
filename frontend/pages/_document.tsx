@@ -22,7 +22,13 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
         </Head>
-        <body style={{ minHeight: '100vh', margin: '0px', padding: '0px' }}>
+        <body
+          style={{
+            minHeight: '100vh',
+            margin: '0px',
+            padding: '0px',
+          }}
+        >
           <Main />
           <NextScript />
         </body>

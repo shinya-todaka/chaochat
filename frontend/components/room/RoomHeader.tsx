@@ -67,7 +67,7 @@ const RoomHeader: FC<{
               <ListItemIcon>
                 <FileCopy fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="urlをコピー" />
+              <ListItemText primary="URLをコピー" />
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -78,7 +78,7 @@ const RoomHeader: FC<{
               <ListItemIcon>
                 <TwitterIcon />
               </ListItemIcon>
-              <ListItemText primary="urlをツイート" />
+              <ListItemText primary="URLをツイート" />
             </MenuItem>
           </Menu>
         </Box>
