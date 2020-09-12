@@ -33,7 +33,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             <TextFieldDialogProvider>
               <Box bgcolor="#dcdcdc">
                 <CssBaseline />
-                <Container maxWidth="sm">
+                <Container maxWidth="sm" disableGutters>
                   <Box bgcolor="white" width="100%" height="100vh">
                     <AppBar />
                     <Component {...pageProps} />
