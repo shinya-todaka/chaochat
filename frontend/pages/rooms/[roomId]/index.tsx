@@ -1,6 +1,7 @@
 import { NextPage, GetServerSidePropsContext } from 'next';
 import { IRoom } from 'models/room';
 import SigninDialogProvider from 'contexts/SigninDialogContext';
+import MembersContextProvider from 'contexts/MembersContext';
 import 'firebase/auth';
 import readRoom from 'services/read-room';
 import Room from 'components/room';
@@ -31,7 +32,9 @@ const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
         url={roomUrl}
       />
       <SigninDialogProvider title="ルームに参加するためにログインしてください">
-        <Room roomId={room.id} />
+        <MembersContextProvider>
+          <Room roomId={room.id} />
+        </MembersContextProvider>
       </SigninDialogProvider>
     </>
   );

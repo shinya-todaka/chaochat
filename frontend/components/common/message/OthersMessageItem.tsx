@@ -1,9 +1,12 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { IMessage } from 'models/message';
+import { IMember } from 'models/member';
 import useMember from 'hooks/use-member';
 import Box from '@material-ui/core/Box';
 import ProfileImageAvatar from 'components/common/ProfileImageAvatar';
+import { useMembersContext } from 'contexts/MembersContext';
+import MessageList from '../list/MessageList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,16 +36,25 @@ const OthersMessageItem: FC<{ roomId: string; message: IMessage }> = ({
   message,
 }) => {
   const classes = useStyles();
-  const { member } = useMember(roomId, message.from);
+  const { members } = useMembersContext();
 
-  return member ? (
+  const findMember = useCallback(
+    (_members: IMember[]) => {
+      return (
+        _members.filter((_member) => _member.id === message.from)[0] ?? null
+      );
+    },
+    [message.from],
+  );
+
+  return findMember(members) ? (
     <Box className={classes.root}>
       <Box mr="5px">
-        <ProfileImageAvatar member={member} />
+        <ProfileImageAvatar member={findMember(members)} />
       </Box>
       <Box maxWidth="60%">
         <Box mb="2px" fontSize="10px" fontWeight="fontWeightBold">
-          {member.displayName}
+          {findMember(members).displayName}
         </Box>
         <Box className={classes.messageBubble}>{message.text} </Box>
       </Box>
