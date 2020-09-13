@@ -6,9 +6,10 @@ import Document, {
   DocumentContext,
 } from 'next/document';
 import React from 'react';
-import { ServerStyleSheet } from 'styled-components';
+import styled, { ServerStyleSheet } from 'styled-components';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import theme from 'plugins/theme';
+import Box from '@material-ui/core/Box';
 
 class MyDocument extends Document {
   render() {
@@ -22,16 +23,18 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
         </Head>
-        <body
-          style={{
-            minHeight: '100vh',
-            margin: '0px',
-            padding: '0px',
-          }}
-        >
+
+        <body>
           <Main />
           <NextScript />
         </body>
+        <style global jsx>{`
+          html,
+          body,
+          div#__next {
+            height: 100%;
+          }
+        `}</style>
       </Html>
     );
   }

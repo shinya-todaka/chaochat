@@ -11,24 +11,23 @@ import { useUser } from 'contexts/UserContext';
 const useStyles = makeStyles({
   root: {
     height: '50px',
-    position: 'relative',
+    position: 'static',
+  },
+  content: {
+    height: '100%',
+    width: '100%',
   },
   homeLink: {
     textDecoration: 'none',
   },
 });
 
-const Header: FC = () => {
+const Header: FC = ({ children }) => {
   const classes = useStyles();
   const { user, loadingUser } = useUser();
 
   return (
-    <AppBar
-      position="static"
-      className={classes.root}
-      elevation={1}
-      color="transparent"
-    >
+    <AppBar className={classes.root} elevation={1} color="transparent">
       <ToolBar variant="dense">
         <Box display="flex" flexGrow={1} alignItems="center">
           <Link href="/">

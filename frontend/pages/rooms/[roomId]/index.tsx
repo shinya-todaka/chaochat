@@ -6,6 +6,7 @@ import 'firebase/auth';
 import readRoom from 'services/read-room';
 import Room from 'components/room';
 import Head from 'components/common/Head';
+import AppBar from 'components/common/header/AppBar';
 import Box from '@material-ui/core/Box';
 
 const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
@@ -17,11 +18,11 @@ const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
     );
   }
 
-  const imageUrl = `${process.env.NEXT_PUBLIC_HOST}/ogpImage?title=${room.name}`;
+  const imageUrl = `${process.env.NEXT_PUBLIC_HOST}/ogpImage?name=${room.name}`;
   const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${room.id}`;
 
   return (
-    <>
+    <Box display="flex" flexDirection="column" height="100%">
       <Head
         title="chaochat"
         description="とくめいで参加できるグループチャット"
@@ -33,10 +34,13 @@ const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
       />
       <SigninDialogProvider title="ルームに参加するためにログインしてください">
         <MembersContextProvider>
-          <Room roomId={room.id} />
+          <AppBar />
+          <Box display="flex" flexDirection="column" height="calc(100% - 50px)">
+            <Room roomId={room.id} />
+          </Box>
         </MembersContextProvider>
       </SigninDialogProvider>
-    </>
+    </Box>
   );
 };
 

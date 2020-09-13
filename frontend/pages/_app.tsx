@@ -26,25 +26,24 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   return (
-    <>
-      <UserProvider>
-        <ThemeProvider theme={theme}>
-          <SnackbarProvider>
-            <TextFieldDialogProvider>
-              <Box bgcolor="#dcdcdc">
-                <CssBaseline />
-                <Container maxWidth="sm" disableGutters>
-                  <Box bgcolor="white" width="100%" height="100vh">
-                    <AppBar />
-                    <Component {...pageProps} />
-                  </Box>
-                </Container>
-              </Box>
-            </TextFieldDialogProvider>
-          </SnackbarProvider>
-        </ThemeProvider>
-      </UserProvider>
-    </>
+    <UserProvider>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider>
+          <TextFieldDialogProvider>
+            <CssBaseline />
+            <Box height="100%" bgcolor="#d3ded3">
+              <Container
+                maxWidth="sm"
+                disableGutters
+                style={{ height: '100%', backgroundColor: '#ffff' }}
+              >
+                <Component {...pageProps} />
+              </Container>
+            </Box>
+          </TextFieldDialogProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </UserProvider>
   );
 };
 

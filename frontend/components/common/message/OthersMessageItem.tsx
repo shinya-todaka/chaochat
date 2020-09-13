@@ -1,12 +1,10 @@
-import React, { FC, useEffect, useCallback } from 'react';
+import React, { FC, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { IMessage } from 'models/message';
 import { IMember } from 'models/member';
-import useMember from 'hooks/use-member';
 import Box from '@material-ui/core/Box';
 import ProfileImageAvatar from 'components/common/ProfileImageAvatar';
 import { useMembersContext } from 'contexts/MembersContext';
-import MessageList from '../list/MessageList';
 
 const useStyles = makeStyles((theme) => ({
   root: {

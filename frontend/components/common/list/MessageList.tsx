@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { IMessage } from 'models/message';
 import MessageItem from 'components/common/message/MessageItem';
+import Box from '@material-ui/core/Box';
 
 const MessageList: FC<{
   roomId: string;

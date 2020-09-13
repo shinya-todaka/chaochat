@@ -7,6 +7,7 @@ import { useAuthDialog } from 'contexts/SigninDialogContext';
 import RoomHeader from 'components/room/RoomHeader';
 import RoomFooter from 'components/room/RoomFooter';
 import MessageList from 'components/common/list/MessageList';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { OMember } from 'models/member';
 import writeMember from 'services/write-member';
 import removeMember from 'services/remove-member';
@@ -41,7 +42,16 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
   }, [room]);
 
   if (!room) {
-    return <></>;
+    return (
+      <Box
+        flexGrow={1}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
   }
 
   const handleJoin = async (anonymously: boolean) => {
@@ -107,38 +117,28 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
   };
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexDirection="column"
-      height="calc(100vh - 50px)"
-      overflow="hidden"
-    >
-      <Box display="flex" flexDirection="column" width="100%" height="100%">
-        <RoomHeader
-          title={room.name || ''}
-          room={room}
-          members={members}
-          onClickLeave={handleLeave}
-          handleTweet={handleTweet}
-          handleCopyUrl={handleCopyUrl}
-        />
-        {user && (
-          <Box overflow="auto" height="100%" id="scroll-area" pb={1}>
-            <MessageList roomId={room.id} uid={user.id} messages={messages} />
-          </Box>
-        )}
+    <Box display="flex" flexDirection="column" height="100%">
+      <RoomHeader
+        title={room.name}
+        room={room}
+        members={members}
+        onClickLeave={handleLeave}
+        handleTweet={handleTweet}
+        handleCopyUrl={handleCopyUrl}
+      />
 
-        <Box width="100%" flexGrow={1}>
-          <RoomFooter
-            isInRoom={isInRoom}
-            room={room}
-            sendMessage={sendMessage}
-            handleJoin={handleJoin}
-          />
-        </Box>
+      <Box flex={1} overflow="auto" id="scroll-area" padding={1}>
+        {user && (
+          <MessageList roomId={room.id} uid={user.id} messages={messages} />
+        )}
       </Box>
+
+      <RoomFooter
+        isInRoom={isInRoom}
+        room={room}
+        sendMessage={sendMessage}
+        handleJoin={handleJoin}
+      />
     </Box>
   );
 };

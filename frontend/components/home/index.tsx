@@ -11,14 +11,7 @@ import { TwitterIcon } from 'components/common/icons';
 import CreateRoomDialog from 'components/common/CreateRoomDialog';
 import writeRoom from 'services/write-room';
 
-const useStyles = makeStyles({
-  title: {
-    margin: '30px',
-  },
-});
-
 const Home: FC = () => {
-  const classes = useStyles();
   const { user } = useUser();
   const handleSignin = async () => {
     const provider = new firebase.auth.TwitterAuthProvider();
@@ -62,9 +55,11 @@ const Home: FC = () => {
   };
 
   return (
-    <Box display="flex" justifyContent="center" flexDirection="column">
-      <Box display="flex" justifyContent="center" className={classes.title}>
-        <Typography variant="h2">ChaoChat</Typography>
+    <Box display="flex" height="100%" flexDirection="column">
+      <Box alignItems="center" m="30px">
+        <Typography variant="h2" align="center">
+          ChaoChat
+        </Typography>
       </Box>
       <Box display="flex" justifyContent="center">
         {user ? (

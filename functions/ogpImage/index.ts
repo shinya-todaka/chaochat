@@ -28,35 +28,38 @@ const splitByMeasureWidth = (
   return lines;
 };
 
-async function createBuffer(title: string): Promise<Buffer> {
+async function createBuffer(name: string | null): Promise<Buffer> {
   registerFont(FONT_PATH, { family: FONT_FAMILY });
   const canvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
   const context = canvas.getContext('2d');
   const image = await loadImage(IMAGE_PATH);
   context.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-  context.font = `${FONT_SIZE}px ${FONT_FAMILY}`;
-  context.fillStyle = '#000000';
 
-  const descriptionLines: string[] = splitByMeasureWidth(
-    title,
-    CANVAS_WIDTH - 16,
-    context,
-  );
-  let startingPositionY = 400;
-  descriptionLines.forEach((line: string) => {
-    const textWidth: number = context.measureText(line).width;
-    context.fillText(line, (CANVAS_WIDTH - textWidth) / 2, startingPositionY);
-    startingPositionY += FONT_SIZE + 20;
-  });
+  if (name) {
+    context.font = `${FONT_SIZE}px ${FONT_FAMILY}`;
+    context.fillStyle = '#CC3C81';
+
+    const descriptionLines: string[] = splitByMeasureWidth(
+      name,
+      CANVAS_WIDTH - 16,
+      context,
+    );
+    let startingPositionY = 400;
+    descriptionLines.forEach((line: string) => {
+      const textWidth: number = context.measureText(line).width;
+      context.fillText(line, (CANVAS_WIDTH - textWidth) / 2, startingPositionY);
+      startingPositionY += FONT_SIZE + 20;
+    });
+  }
 
   return canvas.toBuffer();
 }
 
 const app = express();
 app.get('*', async (req, res) => {
-  const { title } = req.query;
+  const { name } = req.query;
   try {
-    const imageBinary: Buffer = await createBuffer(title as string);
+    const imageBinary: Buffer = await createBuffer((name as string) || null);
     res.writeHead(200, {
       'Content-Type': 'image/png',
       'Content-Length': imageBinary.length,

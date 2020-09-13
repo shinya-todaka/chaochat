@@ -15,7 +15,7 @@ import ExpireTime from 'components/room/ExpireTime';
 import { IRoom } from 'models/room';
 
 const RoomHeader: FC<{
-  title: string;
+  title: string | null;
   room: IRoom;
   members: IMember[];
   onClickLeave: () => void;
@@ -35,14 +35,16 @@ const RoomHeader: FC<{
     <AppBar position="static" color="transparent" elevation={0}>
       <ToolBar variant="dense">
         <Box display="flex" flexGrow={1} alignItems="center" borderBottom={1}>
-          <Box ml="18px" fontSize={18} fontWeight="fontWeightBold">
-            {title}
-          </Box>
-          <Box ml={2}>
+          {title && (
+            <Box ml="18px" fontSize={18} fontWeight="fontWeightBold">
+              {title}
+            </Box>
+          )}
+          <Box ml={1}>
             <ExpireTime room={room} />
           </Box>
           <Box flexGrow={1} />
-          <Box mr={2}>
+          <Box>
             <GroupAvatars members={members} />
           </Box>
           <IconButton onClick={handleClick}>
