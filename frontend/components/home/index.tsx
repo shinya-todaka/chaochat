@@ -10,9 +10,10 @@ import { OMember } from 'models/member';
 import { TwitterIcon } from 'components/common/icons';
 import CreateRoomDialog from 'components/common/CreateRoomDialog';
 import writeRoom from 'services/write-room';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Home: FC = () => {
-  const { user } = useUser();
+  const { user, loadingUser } = useUser();
   const handleSignin = async () => {
     const provider = new firebase.auth.TwitterAuthProvider();
     await firebase.auth().signInWithRedirect(provider);
@@ -62,17 +63,19 @@ const Home: FC = () => {
         </Typography>
       </Box>
       <Box display="flex" justifyContent="center">
-        {user ? (
-          <Button variant="outlined" onClick={handleOpen}>
-            ルームを作る
-          </Button>
-        ) : (
+        {loadingUser && <CircularProgress />}
+        {!user && !loadingUser && (
           <Button
             variant="outlined"
             startIcon={<TwitterIcon />}
             onClick={handleSignin}
           >
             ツイッターでログイン
+          </Button>
+        )}
+        {user && (
+          <Button variant="outlined" onClick={handleOpen}>
+            ルームを作る
           </Button>
         )}
       </Box>

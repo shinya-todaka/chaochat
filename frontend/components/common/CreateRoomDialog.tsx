@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   linkRoom: {
     color: theme.palette.secondary.main,
     textDecoration: 'none',
+    fontSize: 14,
   },
 }));
 
@@ -116,7 +117,11 @@ const Complete: FC<{ roomId: string }> = ({ roomId }) => {
       </DialogTitle>
       <DialogContent>
         <Link href={roomUrl}>
-          <a className={classes.linkRoom}>ルームに移動する</a>
+          <a className={classes.linkRoom}>
+            <Button variant="contained" color="primary" disableElevation>
+              ルームに移動する
+            </Button>
+          </a>
         </Link>
       </DialogContent>
       <DialogActions>

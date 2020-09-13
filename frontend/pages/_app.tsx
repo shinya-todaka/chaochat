@@ -31,11 +31,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <SnackbarProvider>
           <TextFieldDialogProvider>
             <CssBaseline />
-            <Box height="100%" bgcolor="#d3ded3">
+            <Box bgcolor="#D5DED4" height="100%" width="100%">
               <Container
                 maxWidth="sm"
                 disableGutters
-                style={{ height: '100%', backgroundColor: '#ffff' }}
+                style={{ height: '100%', backgroundColor: '#fff' }}
               >
                 <Component {...pageProps} />
               </Container>

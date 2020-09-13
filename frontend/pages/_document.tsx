@@ -14,7 +14,7 @@ import Box from '@material-ui/core/Box';
 class MyDocument extends Document {
   render() {
     return (
-      <Html lang="ja">
+      <Html lang="ja" style={{ height: '100%' }}>
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
@@ -24,13 +24,11 @@ class MyDocument extends Document {
           />
         </Head>
 
-        <body>
+        <body style={{ height: '100%' }}>
           <Main />
           <NextScript />
         </body>
         <style global jsx>{`
-          html,
-          body,
           div#__next {
             height: 100%;
           }
