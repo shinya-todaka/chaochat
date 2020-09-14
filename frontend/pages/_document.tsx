@@ -6,10 +6,9 @@ import Document, {
   DocumentContext,
 } from 'next/document';
 import React from 'react';
-import styled, { ServerStyleSheet } from 'styled-components';
+import { ServerStyleSheet } from 'styled-components';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import theme from 'plugins/theme';
-import Box from '@material-ui/core/Box';
 
 class MyDocument extends Document {
   render() {
@@ -28,11 +27,6 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-        <style global jsx>{`
-          div#__next {
-            height: 100%;
-          }
-        `}</style>
       </Html>
     );
   }

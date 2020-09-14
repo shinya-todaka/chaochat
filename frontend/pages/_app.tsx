@@ -6,7 +6,6 @@ import firebaseConfig from 'firebase-config.json';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from 'plugins/theme';
-import AppBar from 'components/common/header/AppBar';
 import SnackbarProvider from 'contexts/SnackBarContext';
 import TextFieldDialogProvider from 'contexts/TextFieldDialogContext';
 import Container from '@material-ui/core/Container';
@@ -39,6 +38,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               >
                 <Component {...pageProps} />
               </Container>
+              <style global jsx>{`
+                div#__next {
+                  height: 100%;
+                }
+              `}</style>
             </Box>
           </TextFieldDialogProvider>
         </SnackbarProvider>

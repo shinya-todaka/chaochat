@@ -13,9 +13,9 @@ export type IRoom = {
 export type ORoom = {
   name: string | null;
   members: string[];
-  updatedAt: firebase.firestore.FieldValue;
   expiresIn: 1 | 3 | 5 | 10;
   isClosed: boolean;
+  updatedAt: firebase.firestore.FieldValue;
   createdAt?: firebase.firestore.FieldValue;
 };
 

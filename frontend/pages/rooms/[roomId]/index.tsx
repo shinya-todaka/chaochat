@@ -1,31 +1,30 @@
-import { NextPage, GetServerSidePropsContext } from 'next';
-import { IRoom } from 'models/room';
+import { NextPage } from 'next';
 import SigninDialogProvider from 'contexts/SigninDialogContext';
 import MembersContextProvider from 'contexts/MembersContext';
 import 'firebase/auth';
-import readRoom from 'services/read-room';
 import Room from 'components/room';
 import Head from 'components/common/Head';
 import AppBar from 'components/common/header/AppBar';
 import Box from '@material-ui/core/Box';
+import { useRouter } from 'next/router';
+import { Typography } from '@material-ui/core';
 
-const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
-  if (!room) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center">
-        ルームがありません!
-      </Box>
-    );
+const RoomPage: NextPage = () => {
+  const router = useRouter();
+  const { roomId } = router.query;
+
+  if (!roomId || typeof roomId !== 'string') {
+    return <Typography>Something is wrong!</Typography>;
   }
 
-  const imageUrl = `${process.env.NEXT_PUBLIC_HOST}/ogpImage?name=${room.name}`;
-  const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${room.id}`;
+  const imageUrl = `${process.env.NEXT_PUBLIC_HOST}/ogpImage?roomId=${roomId}`;
+  const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${roomId}`;
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
       <Head
-        title="chaochat"
-        description="とくめいで参加できるグループチャット"
+        title="chaochat | とくめいで参加できる時間制限ありのグループチャット "
+        description="とくめいで参加できる時間制限ありのグループチャット"
         keyword="chaochat"
         image={imageUrl}
         imageWidth="1200"
@@ -36,7 +35,7 @@ const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
         <MembersContextProvider>
           <AppBar />
           <Box display="flex" flexDirection="column" height="calc(100% - 50px)">
-            <Room roomId={room.id} />
+            <Room roomId={roomId} />
           </Box>
         </MembersContextProvider>
       </SigninDialogProvider>
@@ -45,24 +44,3 @@ const RoomPage: NextPage<{ room: IRoom | null }> = ({ room }) => {
 };
 
 export default RoomPage;
-
-export async function getServerSideProps(
-  context: GetServerSidePropsContext<{ roomId: string }>,
-) {
-  const { params } = context;
-  if (!params) return { props: {} };
-  const { roomId } = params;
-  try {
-    const room = await readRoom(roomId);
-    if ('createdAt' in room) room.createdAt = null;
-    if ('updatedAt' in room) room.updatedAt = null;
-
-    return {
-      props: { room },
-    };
-  } catch (error) {
-    return {
-      props: {},
-    };
-  }
-}

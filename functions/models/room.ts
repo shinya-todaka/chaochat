@@ -6,6 +6,6 @@ export type IRoom = {
   members: string[];
   expiresIn: 1 | 3 | 5 | 10;
   isClosed: boolean;
-  updatedAt: firebase.firestore.Timestamp | null;
-  createdAt: firebase.firestore.Timestamp | null;
+  updatedAt: firebase.firestore.Timestamp;
+  createdAt: firebase.firestore.Timestamp;
 };
