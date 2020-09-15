@@ -14,6 +14,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Create from '@material-ui/icons/Create';
 import Twitter from '@material-ui/icons/Twitter';
 import Chat from '@material-ui/icons/Chat';
+import styled from 'styled-components';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -24,8 +26,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const DivWrapper = styled.div`
+  font-weight: bold;
+  font-size: 1.4em;
+  margin-left: 4px;
+`;
+
 const Home: FC = () => {
   const classes = useStyles();
+  const matches = useMediaQuery('(max-width: 750px)');
   const { user, loadingUser } = useUser();
   const handleSignin = async () => {
     const provider = new firebase.auth.TwitterAuthProvider();
@@ -85,7 +94,7 @@ const Home: FC = () => {
           >
             chaochat
           </Typography>
-          <Box display="flex" justifyContent="center" mt={4}>
+          <Box display="flex" justifyContent="center" mt="16px">
             {loadingUser && <CircularProgress />}
             {!user && !loadingUser && (
               <Button
@@ -121,20 +130,32 @@ const Home: FC = () => {
         <Box display="flex" justifyContent="center" flexDirection="column">
           <Box display="flex" flexDirection="row" mb={2}>
             <Create fontSize="large" />
-            <Box fontWeight="bold" fontSize={20} ml={4}>
-              ルームを作りましょう。
+            <Box
+              fontWeight="bold"
+              fontSize={matches ? '1.2em' : '1.4em'}
+              ml="8px"
+            >
+              ルームを作ろう。
             </Box>
           </Box>
           <Box display="flex" flexDirection="row" mb={2}>
             <Twitter fontSize="large" />
-            <Box fontWeight="bold" fontSize={20} ml={4}>
-              Twitterでシェアしましょう。
+            <Box
+              fontWeight="bold"
+              fontSize={matches ? '1.2em' : '1.4em'}
+              ml="8px"
+            >
+              Twitterでシェアしよう。
             </Box>
           </Box>
           <Box display="flex" flexDirection="row">
             <Chat fontSize="large" />
-            <Box fontWeight="bold" fontSize={20} ml={4}>
-              制限時間までチャットしましょう。
+            <Box
+              fontWeight="bold"
+              fontSize={matches ? '1.2em' : '1.4em'}
+              ml="8px"
+            >
+              制限時間までチャットしよう。
             </Box>
           </Box>
         </Box>

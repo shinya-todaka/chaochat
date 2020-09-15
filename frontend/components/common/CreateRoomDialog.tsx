@@ -53,7 +53,7 @@ const CreateRoom: FC<{
   return (
     <>
       <DialogTitle>
-        <Typography variant="subtitle1">
+        <Typography variant="subtitle2">
           ルームの名前を設定しますか？
         </Typography>
       </DialogTitle>
@@ -83,7 +83,7 @@ const CreateRoom: FC<{
         <Button
           onClick={handleCreateRoom}
           disabled={!isEnableCreate()}
-          color="secondary"
+          color="primary"
           variant="outlined"
         >
           作成
