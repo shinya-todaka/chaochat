@@ -1,8 +1,6 @@
-import express from 'express';
-import admin from 'firebase-admin';
 import dayjs from 'dayjs';
 import { createCanvas, loadImage, registerFont } from 'canvas';
-import { IRoom } from '../models/room';
+import { IRoom } from '../../models/room';
 
 const CANVAS_WIDTH = 1200;
 const CANVAS_HEIGHT = 630;
@@ -31,7 +29,7 @@ const splitByMeasureWidth = (
   return lines;
 };
 
-async function createBuffer(room: IRoom): Promise<Buffer> {
+export async function createBuffer(room: IRoom): Promise<Buffer> {
   registerFont(FONT_PATH, { family: FONT_FAMILY });
   const canvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
   const context = canvas.getContext('2d');
@@ -75,33 +73,3 @@ async function createBuffer(room: IRoom): Promise<Buffer> {
   // draw clock
   return canvas.toBuffer();
 }
-
-const app = express();
-app.get('*', async (req, res) => {
-  const { roomId } = req.query;
-  res.set('Cache-Control', 'public, max-age=600, s-maxage=600');
-  try {
-    if (!roomId || typeof roomId !== 'string') {
-      throw Error('roomId cannot be found');
-    } else {
-      const roomReference = admin
-        .firestore()
-        .collection('message')
-        .doc('v1')
-        .collection('rooms')
-        .doc(roomId);
-      const roomDoc = await roomReference.get();
-      const room = roomDoc.data() as IRoom;
-      const imageBinary: Buffer = await createBuffer(room);
-      res.writeHead(200, {
-        'Content-Type': 'image/png',
-        'Content-Length': imageBinary.length,
-      });
-      res.status(200).end(imageBinary, 'binary');
-    }
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
-
-export default app;

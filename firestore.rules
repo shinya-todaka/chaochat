@@ -28,10 +28,10 @@ service cloud.firestore {
           && request.resource.data.updatedAt == request.time;
 
         match /messages/{message_id} {
-          allow read: if request.auth.uid in get(documentPath(['rooms', room_id])).data.members;
-            && !get(documentPath(['rooms', room_id])).isClosed 
+          allow read: if request.auth.uid in get(documentPath(['rooms', room_id])).data.members
+            && !get(documentPath(['rooms', room_id])).data.isClosed 
           allow create: if request.auth.uid in get(documentPath(['rooms', room_id])).data.members
-            && !get(documentPath(['rooms', room_id])).isClosed 
+            && !get(documentPath(['rooms', room_id])).data.isClosed 
             && request.resource.data.keys().hasOnly(['from','text','createdAt'])
             && request.resource.data.keys().hasAll(['from','text','createdAt'])
             && request.resource.data.from == request.auth.uid
@@ -42,7 +42,7 @@ service cloud.firestore {
         match /members/{member_id} {
           allow read: if true;
           allow create: if request.auth.uid == member_id 
-            && !get(documentPath(['rooms', room_id])).isClosed 
+            && !getAfter(documentPath(['rooms', room_id])).data.isClosed 
             && request.resource.data.keys().hasOnly(['displayName','photoURL','createdAt','isEnabled'])
             && request.resource.data.keys().hasAll(['displayName','photoURL', 'createdAt', 'isEnabled'])
             && isValidString(request.resource.data.displayName, 1, 30)

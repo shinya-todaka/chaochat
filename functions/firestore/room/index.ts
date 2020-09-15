@@ -1,6 +1,8 @@
 import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
 import { IRoom } from '../../models/room';
 import ExpirationTaskPayload from '../../models/ExpirationTaskPayload';
+import { createBuffer } from './helper';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { CloudTasksClient } = require('@google-cloud/tasks');
@@ -47,5 +49,15 @@ export const onCreate = functions
     } catch (error) {
       functions.logger.error(error);
       console.log(error);
+    }
+
+    const bucket = admin.storage().bucket();
+    try {
+      const buffer = await createBuffer(room);
+      const path = `message/v1/ogpImage/roomId/${snapshot.id}.png`;
+      await bucket.file(path).save(buffer);
+      await bucket.file(path).makePublic();
+    } catch (error) {
+      functions.logger.error(error);
     }
   });

@@ -17,13 +17,14 @@ const RoomPage: NextPage = () => {
     return <Typography>Something is wrong!</Typography>;
   }
 
-  const imageUrl = `${process.env.NEXT_PUBLIC_HOST}/ogpImage?roomId=${roomId}`;
+  const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
+  const imageUrl = `https://storage.googleapis.com/${projectId}.appspot.com/message/v1/ogpImage/roomId/${roomId}.png`;
   const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${roomId}`;
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
       <Head
-        title="chaochat | とくめいで参加できる時間制限ありのグループチャット "
+        title="chaochat | とくめいで参加できる時間制限ありのグループチャット"
         description="とくめいで参加できる時間制限ありのグループチャット"
         keyword="chaochat"
         image={imageUrl}

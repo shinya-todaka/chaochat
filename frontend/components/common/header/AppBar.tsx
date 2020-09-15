@@ -17,12 +17,15 @@ const useStyles = makeStyles({
     height: '100%',
     width: '100%',
   },
+  title: {
+    fontWeight: 'bold',
+  },
   homeLink: {
     textDecoration: 'none',
   },
 });
 
-const Header: FC = ({ children }) => {
+const Header: FC = () => {
   const classes = useStyles();
   const { user, loadingUser } = useUser();
 
@@ -32,7 +35,11 @@ const Header: FC = ({ children }) => {
         <Box display="flex" flexGrow={1} alignItems="center">
           <Link href="/">
             <a className={classes.homeLink}>
-              <Typography variant="h6" color="primary">
+              <Typography
+                variant="h5"
+                color="primary"
+                className={classes.title}
+              >
                 chaochat
               </Typography>
             </a>

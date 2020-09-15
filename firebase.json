@@ -16,7 +16,7 @@
     ],
     "rewrites": [
       {
-        "source": "**",
+        "source": "/**/**",
         "function": "nextjsFunc"
       }
     ]
@@ -36,3 +36,4 @@
     }
   }
 }
+
