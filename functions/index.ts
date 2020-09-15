@@ -5,7 +5,6 @@ import express from 'express';
 import next from 'next';
 import * as firestore from './firestore';
 import { firestoreTtlCallback } from './tasks';
-import ogpImage from './ogpImage';
 
 admin.initializeApp();
 
@@ -20,7 +19,6 @@ const handle = app.getRequestHandler();
 const nextjsFunc = functions.https.onRequest(async (req, res) => {
   await app.prepare();
   const server = express();
-  server.use('/ogpImage', ogpImage);
 
   server.get('*', async (_req, _res) => {
     await handle(_req, _res);
