@@ -11,8 +11,21 @@ import { TwitterIcon } from 'components/common/icons';
 import CreateRoomDialog from 'components/common/CreateRoomDialog';
 import writeRoom from 'services/write-room';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Create from '@material-ui/icons/Create';
+import Twitter from '@material-ui/icons/Twitter';
+import Chat from '@material-ui/icons/Chat';
+
+const useStyles = makeStyles((theme) => ({
+  title: {
+    fontWeight: 'bold',
+  },
+  bottomBox: {
+    backgroundColor: theme.palette.primary.light,
+  },
+}));
 
 const Home: FC = () => {
+  const classes = useStyles();
   const { user, loadingUser } = useUser();
   const handleSignin = async () => {
     const provider = new firebase.auth.TwitterAuthProvider();
@@ -57,28 +70,77 @@ const Home: FC = () => {
 
   return (
     <Box display="flex" height="100%" flexDirection="column">
-      <Box alignItems="center" m="30px">
-        <Typography variant="h2" align="center">
-          ChaoChat
-        </Typography>
-      </Box>
-      <Box display="flex" justifyContent="center">
-        {loadingUser && <CircularProgress />}
-        {!user && !loadingUser && (
-          <Button
-            variant="outlined"
-            startIcon={<TwitterIcon />}
-            onClick={handleSignin}
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        height="33%"
+      >
+        <Box display="flex" flexDirection="column">
+          <Typography
+            variant="h2"
+            align="center"
+            color="primary"
+            className={classes.title}
           >
-            ツイッターでログイン
-          </Button>
-        )}
-        {user && (
-          <Button variant="outlined" onClick={handleOpen}>
-            ルームを作る
-          </Button>
-        )}
+            chaochat
+          </Typography>
+          <Box display="flex" justifyContent="center" mt={4}>
+            {loadingUser && <CircularProgress />}
+            {!user && !loadingUser && (
+              <Button
+                variant="outlined"
+                startIcon={<TwitterIcon />}
+                onClick={handleSignin}
+              >
+                ツイッターでログイン
+              </Button>
+            )}
+            {user && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleOpen}
+                fullWidth
+              >
+                ルームを作る
+              </Button>
+            )}
+          </Box>
+        </Box>
       </Box>
+
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        className={classes.bottomBox}
+        padding={4}
+        height="33%"
+      >
+        <Box display="flex" justifyContent="center" flexDirection="column">
+          <Box display="flex" flexDirection="row" mb={2}>
+            <Create fontSize="large" />
+            <Box fontWeight="bold" fontSize={20} ml={4}>
+              ルームを作りましょう。
+            </Box>
+          </Box>
+          <Box display="flex" flexDirection="row" mb={2}>
+            <Twitter fontSize="large" />
+            <Box fontWeight="bold" fontSize={20} ml={4}>
+              Twitterでシェアしましょう。
+            </Box>
+          </Box>
+          <Box display="flex" flexDirection="row">
+            <Chat fontSize="large" />
+            <Box fontWeight="bold" fontSize={20} ml={4}>
+              制限時間までチャットしましょう。
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+      <Box />
+
       <CreateRoomDialog
         open={open}
         handleClose={handleClose}
