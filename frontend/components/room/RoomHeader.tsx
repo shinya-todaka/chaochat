@@ -18,7 +18,6 @@ const RoomHeader: FC<{
   title: string | null;
   room: IRoom;
   members: IMember[];
-  onClickLeave: () => void;
   handleTweet: () => void;
   handleCopyUrl: () => Promise<void>;
 }> = ({ title, room, members, handleTweet, handleCopyUrl }) => {
@@ -35,14 +34,17 @@ const RoomHeader: FC<{
     <AppBar position="static" color="transparent" elevation={0}>
       <ToolBar variant="dense">
         <Box display="flex" flexGrow={1} alignItems="center" borderBottom={1}>
-          {title && (
-            <Box ml="18px" fontSize={18} fontWeight="fontWeightBold">
-              {title}
+          <Box display="flex" flexDirection="column" ml="6px">
+            {title && (
+              <Box fontSize="16px" fontWeight="fontWeightBold">
+                {title}
+              </Box>
+            )}
+            <Box fontSize="12px">
+              <ExpireTime room={room} />
             </Box>
-          )}
-          <Box ml={1}>
-            <ExpireTime room={room} />
           </Box>
+
           <Box flexGrow={1} />
           <Box>
             <GroupAvatars members={members} />

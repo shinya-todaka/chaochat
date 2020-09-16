@@ -31,6 +31,7 @@ const Home: FC = () => {
   const router = useRouter();
   const matches = useMediaQuery('(max-width: 750px)');
   const { user, loadingUser } = useUser();
+  const [isWritingRoom, setIsWritingRoom] = useState(false);
   const handleSignin = async () => {
     const provider = new firebase.auth.TwitterAuthProvider();
     await firebase.auth().signInWithRedirect(provider);
@@ -50,7 +51,7 @@ const Home: FC = () => {
     name: string | null,
     expiresIn: 3 | 5 | 10 | 15,
   ): Promise<void> => {
-    if (user) {
+    if (user && !isWritingRoom) {
       const room: ORoom = {
         name,
         members: [user.id],
@@ -65,9 +66,17 @@ const Home: FC = () => {
         isEnabled: true,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
-      const id = await writeRoom(user.id, member, room);
 
-      router.push(`${process.env.NEXT_PUBLIC_HOST}/rooms/${id}`);
+      setIsWritingRoom(true);
+      writeRoom({ uid: user?.id, room, member })
+        .then((id) => {
+          setIsWritingRoom(false);
+          router.push(`/rooms/${id}`);
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsWritingRoom(false);
+        });
     }
   };
 
@@ -139,7 +148,7 @@ const Home: FC = () => {
               fontSize={matches ? '1.2em' : '1.4em'}
               ml="8px"
             >
-              Twitterでシェアしよう。
+              Twitterで友達を招待しよう。
             </Box>
           </Box>
           <Box display="flex" flexDirection="row">
@@ -149,7 +158,7 @@ const Home: FC = () => {
               fontSize={matches ? '1.2em' : '1.4em'}
               ml="8px"
             >
-              制限時間までチャットしよう。
+              制限時間まで話し合おう。
             </Box>
           </Box>
         </Box>

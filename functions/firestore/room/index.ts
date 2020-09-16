@@ -48,7 +48,6 @@ export const onCreate = functions
       await tasksClient.createTask({ parent: queuePath, task });
     } catch (error) {
       functions.logger.error(error);
-      console.log(error);
     }
 
     const bucket = admin.storage().bucket();

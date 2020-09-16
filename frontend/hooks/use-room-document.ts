@@ -35,9 +35,13 @@ const useRoomDocument = (
           setIsRoomLoading(true);
           if (snapshot.exists) {
             const roomData = snapshot.data() as IRoom;
-            if (!snapshot.metadata.hasPendingWrites && !roomData.isClosed) {
+            if (!snapshot.metadata.hasPendingWrites) {
               const me = roomData.members.find((memberId) => memberId === uid);
-              setIsInRoom(Boolean(me));
+              if (roomData.isClosed) {
+                setIsInRoom(false);
+              } else {
+                setIsInRoom(Boolean(me));
+              }
               setRoom(roomData);
             }
           }

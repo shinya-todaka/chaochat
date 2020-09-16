@@ -10,7 +10,6 @@ import MessageList from 'components/common/list/MessageList';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { OMember } from 'models/member';
 import writeMember from 'services/write-member';
-import removeMember from 'services/remove-member';
 import writeMessage from 'services/write-message';
 import { OMessage } from 'models/message';
 import { useTextFieldDialog } from 'contexts/TextFieldDialogContext';
@@ -81,12 +80,6 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
     }
   };
 
-  const handleLeave = async () => {
-    if (user && isInRoom) {
-      await removeMember(user.id, room.id);
-    }
-  };
-
   const sendMessage = async (text: string) => {
     if (user && isInRoom) {
       const message: OMessage = {
@@ -117,7 +110,6 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
         title={room.name}
         room={room}
         members={members}
-        onClickLeave={handleLeave}
         handleTweet={handleTweet}
         handleCopyUrl={handleCopyUrl}
       />

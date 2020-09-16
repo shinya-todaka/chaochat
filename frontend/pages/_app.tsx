@@ -30,7 +30,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <SnackbarProvider>
           <TextFieldDialogProvider>
             <CssBaseline />
-            <Box bgcolor="#D5DED4" height="100%" width="100%">
+            <Box bgcolor="#faf0e6" height="100%" width="100%">
               <Container
                 maxWidth="sm"
                 disableGutters

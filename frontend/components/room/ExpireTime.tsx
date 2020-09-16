@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 import { IRoom } from 'models/room';
-import { Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 
 const dateDiffToTime = (
   expiresIn: number,
@@ -50,11 +50,7 @@ const ExpireTime: FC<{ room: IRoom }> = ({ room }) => {
     };
   }, []);
 
-  return (
-    <Typography variant="subtitle2">{`残り時間 ${formatTimer(
-      time,
-    )}`}</Typography>
-  );
+  return <Box>{`残り時間 ${formatTimer(time)}`}</Box>;
 };
 
 export default ExpireTime;

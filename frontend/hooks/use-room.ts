@@ -22,7 +22,8 @@ const useRoom = (
   useEffect(() => {
     setRoomId(room?.id ?? null);
     setMemberIds(room?.members ?? []);
-  }, [room]);
+    console.log('hoge');
+  }, [room?.members, room?.id]);
 
   return {
     isInRoom,

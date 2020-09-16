@@ -7,7 +7,8 @@ const CANVAS_HEIGHT = 630;
 
 const IMAGE_PATH = 'dist/images/background.png';
 const FONT_PATH = 'dist/fonts/OpenSans-Bold.ttf';
-const MAIN_FONT_SIZE = 80;
+const MAIN_FONT_SIZE = 70;
+const DATE_FONT_SIZE = 70;
 const FONT_FAMILY = 'OpenSans Bold';
 
 const splitByMeasureWidth = (
@@ -38,6 +39,8 @@ export async function createBuffer(room: IRoom): Promise<Buffer> {
   context.font = `${MAIN_FONT_SIZE}px ${FONT_FAMILY}`;
   context.fillStyle = '#000';
 
+  let dateStartingPosition = CANVAS_HEIGHT / 2;
+
   if (room.name) {
     const descriptionLines: string[] = splitByMeasureWidth(
       room.name,
@@ -56,18 +59,20 @@ export async function createBuffer(room: IRoom): Promise<Buffer> {
       context.fillText(line, (CANVAS_WIDTH - textWidth) / 2, startingPositionY);
       startingPositionY += MAIN_FONT_SIZE + 20;
     });
+    dateStartingPosition = 500;
   }
 
-  // change font size
-  context.font = `${90}px ${FONT_FAMILY}`;
+  context.font = `${DATE_FONT_SIZE}px ${FONT_FAMILY}`;
   context.fillStyle = '#000';
-  const time = dayjs(Date()).add(9, 'hour').add(room.expiresIn, 'minute');
-  const timeFormat = time.format('A HH:mm:ss まで');
+  const time = dayjs(room.createdAt.toDate())
+    .add(9, 'hour')
+    .add(room.expiresIn, 'minute');
+  const timeFormat = time.format('A h:mm:ss まで');
   const textWidth: number = context.measureText(timeFormat).width;
   context.fillText(
     timeFormat,
     (CANVAS_WIDTH - textWidth) / 2,
-    500 + 90 / 2 - 8,
+    dateStartingPosition + DATE_FONT_SIZE / 2 - 8,
   );
 
   // draw clock

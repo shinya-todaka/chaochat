@@ -10,7 +10,6 @@ import {
   Button,
   Box,
   Radio,
-  MobileStepper,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -28,28 +27,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateRoom: FC<{
+const SetRoomName: FC<{
   handleSetRoomName: (name: string | null) => void;
 }> = ({ handleSetRoomName }) => {
   const classes = useStyles();
-  const [roomName, setRoomName] = useState<string>('');
+  const [roomName, setRoomName] = useState<string | null>(null);
   const [isNeedRoomName, setIsNeedRoomName] = useState(false);
 
   const roomNameValidator = (text: string) =>
-    text.length > 0 && text.length < 30;
+    text.length > 0 && text.length <= 30;
 
   const isEnableCreate = (): boolean => {
-    return !isNeedRoomName || roomNameValidator(roomName);
+    if (!isNeedRoomName && roomName === null) {
+      return true;
+    }
+    if (typeof roomName === 'string') {
+      return roomNameValidator(roomName);
+    }
+
+    return false;
   };
 
   const handleChangeIsNeeedRoomName = (isNeed: boolean) => {
     if (isNeed) {
       setIsNeedRoomName(isNeed);
-      console.log('is need!!');
     } else {
-      setRoomName('');
+      setRoomName(null);
       setIsNeedRoomName(isNeed);
-      console.log('is not need');
     }
   };
 
@@ -153,7 +157,7 @@ const CreateRoomDialog: FC<{
   handleCreateRoom: (
     name: string | null,
     expiresIn: 3 | 5 | 10 | 15,
-  ) => Promise<string | null>;
+  ) => Promise<void>;
 }> = ({ open, handleClose, handleCreateRoom }) => {
   const [roomName, setRoomNme] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<0 | 1>(0);
@@ -175,7 +179,7 @@ const CreateRoomDialog: FC<{
       aria-labelledby="simple-dialog-title"
     >
       {currentPage === 0 && (
-        <CreateRoom handleSetRoomName={handleSetRoomName} />
+        <SetRoomName handleSetRoomName={handleSetRoomName} />
       )}
       {currentPage === 1 && (
         <SetExpiresIn
