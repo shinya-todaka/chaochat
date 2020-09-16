@@ -15,6 +15,7 @@ import Create from '@material-ui/icons/Create';
 import Twitter from '@material-ui/icons/Twitter';
 import Chat from '@material-ui/icons/Chat';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home: FC = () => {
   const classes = useStyles();
+  const router = useRouter();
   const matches = useMediaQuery('(max-width: 750px)');
   const { user, loadingUser } = useUser();
   const handleSignin = async () => {
@@ -47,7 +49,7 @@ const Home: FC = () => {
   const handleCreateRoom = async (
     name: string | null,
     expiresIn: 3 | 5 | 10 | 15,
-  ): Promise<string | null> => {
+  ): Promise<void> => {
     if (user) {
       const room: ORoom = {
         name,
@@ -63,12 +65,10 @@ const Home: FC = () => {
         isEnabled: true,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
-      const sentRoom = await writeRoom(user.id, member, room);
+      const id = await writeRoom(user.id, member, room);
 
-      return sentRoom.id;
+      router.push(`${process.env.NEXT_PUBLIC_HOST}/rooms/${id}`);
     }
-
-    return null;
   };
 
   return (

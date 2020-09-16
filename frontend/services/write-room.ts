@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-import { ORoom, IRoom } from 'models/room';
+import { ORoom } from 'models/room';
 import { OMember } from 'models/member';
 import 'firebase/firestore';
 
@@ -7,7 +7,7 @@ const writeRoom = async (
   uid: string,
   member: OMember,
   room: ORoom,
-): Promise<IRoom> => {
+): Promise<string> => {
   const db = firebase.firestore();
   const roomDocument = db
     .collection('message')
@@ -20,14 +20,7 @@ const writeRoom = async (
   batch.set(roomDocument.collection('members').doc(uid), member);
   await batch.commit();
 
-  const sentRoom: IRoom = {
-    id: roomDocument.id,
-    ...room,
-    updatedAt: null,
-    createdAt: null,
-  };
-
-  return sentRoom;
+  return roomDocument.id;
 };
 
 export default writeRoom;
