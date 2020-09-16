@@ -53,7 +53,7 @@ const CreateRoom: FC<{
   return (
     <>
       <DialogTitle>
-        <Typography variant="subtitle2">
+        <Typography variant="subtitle2" className={classes.dialogTitle}>
           ルームの名前を設定しますか？
         </Typography>
       </DialogTitle>

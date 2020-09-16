@@ -3,10 +3,6 @@ import firebase from 'firebase/app';
 import { IMessage, messageConverter } from 'models/message';
 import 'firebase/firestore';
 
-interface MessagesDictionary {
-  [name: string]: IMessage;
-}
-
 const useMessages = (
   isInRoom: boolean,
   roomId: string | null,
@@ -17,7 +13,6 @@ const useMessages = (
 
   useEffect(() => {
     let unmounted = false;
-    const messagesDictionary: MessagesDictionary = {};
 
     let unsubscribe: () => void | undefined;
     if (!unmounted && roomId && isInRoom) {
@@ -33,33 +28,10 @@ const useMessages = (
 
       console.log('subscribe messages listener');
       unsubscribe = query.onSnapshot(
-        { includeMetadataChanges: true },
         (snapshot) => {
-          snapshot
-            .docChanges({ includeMetadataChanges: true })
-            .forEach((docChange) => {
-              const { doc } = docChange;
-              const message = doc.data() as IMessage;
-              if (docChange.type === 'added') {
-                messagesDictionary[doc.id] = message;
-              } else if (docChange.type === 'modified') {
-                messagesDictionary[doc.id] = message;
-              } else if (docChange.type === 'removed') {
-                if (messagesDictionary[doc.id]) {
-                  delete messagesDictionary[doc.id];
-                }
-              }
-              if (doc.metadata.hasPendingWrites) {
-                console.log(`${message.text} has pending writes `);
-              }
-
-              if (doc.metadata.fromCache) {
-                console.log(`${message.text} is ${docChange.type} from cache`);
-              } else {
-                console.log(`${message.text} is ${docChange.type} from server`);
-              }
-            });
-          const messageData = Object.values(messagesDictionary);
+          const messageData = snapshot.docs.map(
+            (doc) => doc.data() as IMessage,
+          );
           setMessages(messageData);
           setLoading(false);
         },

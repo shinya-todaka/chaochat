@@ -102,7 +102,6 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
     const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${room.id}`;
     await navigator.clipboard.writeText(roomUrl);
     showSnackbar('urlをコピーしました!');
-    console.log('copied url!');
   };
 
   const handleTweet = () => {

@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import useMessages from 'hooks/use-messages';
-import useMembersDocument from 'hooks/use-members-document';
 import useRoomDocument from 'hooks/use-room-document';
-import useMembersCache from 'hooks/use-members-cache';
 import { useMembersContext } from 'contexts/MembersContext';
 import { IMember } from 'models/member';
 import { IMessage } from 'models/message';

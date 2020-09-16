@@ -21,7 +21,7 @@ const RoomHeader: FC<{
   onClickLeave: () => void;
   handleTweet: () => void;
   handleCopyUrl: () => Promise<void>;
-}> = ({ title, room, members, onClickLeave, handleTweet, handleCopyUrl }) => {
+}> = ({ title, room, members, handleTweet, handleCopyUrl }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
