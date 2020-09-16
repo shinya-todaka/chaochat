@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
   },
   link: {
     textDecoration: 'none',
@@ -30,9 +30,10 @@ const RoomClosedFooter: FC = () => {
       >
         <Box>
           <Typography variant="h6">このルームは終了しました</Typography>
+
           <Box height={8} />
           <Link href="/">
-            <Button variant="contained" fullWidth>
+            <Button variant="contained" fullWidth color="inherit">
               <a className={classes.link}>ホームに戻る</a>
             </Button>
           </Link>

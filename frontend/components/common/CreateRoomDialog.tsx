@@ -9,6 +9,7 @@ import {
   TextField,
   DialogActions,
   Button,
+  Box,
   Radio,
   Typography,
 } from '@material-ui/core';
@@ -18,8 +19,11 @@ import { TwitterIcon } from 'components/common/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+  dialogTitle: {
+    fontWeight: 'bold',
+  },
   formControl: {
-    margin: '10px',
+    padding: '18px',
   },
   linkRoom: {
     color: theme.palette.secondary.main,
@@ -29,14 +33,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateRoom: FC<{
-  completion: (name: string | null) => void;
+  completion: (name: string | null, expiresIn: 3 | 5 | 10 | 15) => void;
 }> = ({ completion }) => {
   const classes = useStyles();
   const [name, setName] = useState('');
+  const [expiresIn, setExpiresIn] = useState<3 | 5 | 10 | 15>(5);
   const [isNeedRoomName, setIsNeedRoomName] = useState(false);
 
-  const handleChange = () => {
-    setIsNeedRoomName(!isNeedRoomName);
+  const handleChangeExpiresIn = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setExpiresIn(
+      parseInt((event.target as HTMLInputElement).value, 10) as 3 | 5 | 10 | 15,
+    );
   };
 
   const roomNameValidator = (text: string) =>
@@ -47,29 +56,27 @@ const CreateRoom: FC<{
   };
 
   const handleCreateRoom = () => {
-    completion(isNeedRoomName ? name : null);
+    completion(isNeedRoomName ? name : null, expiresIn);
   };
 
   return (
     <>
-      <DialogTitle>
-        <Typography variant="subtitle2" className={classes.dialogTitle}>
-          ルームの名前を設定しますか？
-        </Typography>
-      </DialogTitle>
+      <DialogContent>
+        <Box fontWeight="fontWeightBold">ルームの名前を設定しますか？</Box>
+      </DialogContent>
       <FormControl className={classes.formControl}>
-        <RadioGroup row className={classes.formControl}>
+        <RadioGroup row>
           <FormControlLabel
             control={<Radio />}
             label="いいえ"
             checked={!isNeedRoomName}
-            onChange={handleChange}
+            onChange={() => setIsNeedRoomName(false)}
           />
           <FormControlLabel
             control={<Radio />}
             label="はい"
             checked={isNeedRoomName}
-            onChange={handleChange}
+            onChange={() => setIsNeedRoomName(true)}
           />
         </RadioGroup>
       </FormControl>
@@ -79,6 +86,37 @@ const CreateRoom: FC<{
           onChange={({ target: { value } }) => setName(value)}
         />
       </DialogContent>
+      <DialogContent>
+        <Box fontWeight="fontWeightBold">ルームの制限時間を決めよう</Box>
+      </DialogContent>
+      <FormControl className={classes.formControl}>
+        <RadioGroup row={false} onChange={handleChangeExpiresIn}>
+          <FormControlLabel
+            control={<Radio />}
+            value={3}
+            label="3分"
+            checked={expiresIn === 3}
+          />
+          <FormControlLabel
+            control={<Radio />}
+            value={5}
+            label="5分"
+            checked={expiresIn === 5}
+          />
+          <FormControlLabel
+            control={<Radio />}
+            value={10}
+            label="10分"
+            checked={expiresIn === 10}
+          />
+          <FormControlLabel
+            control={<Radio />}
+            value={15}
+            label="15分"
+            checked={expiresIn === 15}
+          />
+        </RadioGroup>
+      </FormControl>
       <DialogActions>
         <Button
           onClick={handleCreateRoom}
@@ -138,13 +176,19 @@ const Complete: FC<{ roomId: string }> = ({ roomId }) => {
 const CreateRoomDialog: FC<{
   open: boolean;
   handleClose: () => void;
-  handleCreateRoom: (name: string | null) => Promise<string | null>;
+  handleCreateRoom: (
+    name: string | null,
+    expiresIn: 3 | 5 | 10 | 15,
+  ) => Promise<string | null>;
 }> = ({ open, handleClose, handleCreateRoom }) => {
   const [roomId, setRoomId] = useState<string | null>(null);
 
-  const createRoomCompletion = async (name: string | null) => {
+  const createRoomCompletion = async (
+    name: string | null,
+    expiresIn: 3 | 5 | 10 | 15,
+  ) => {
     try {
-      const theRoomId = await handleCreateRoom(name);
+      const theRoomId = await handleCreateRoom(name, expiresIn);
       setRoomId(theRoomId);
     } catch (err) {
       console.log(err);

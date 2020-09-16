@@ -43,7 +43,6 @@ const useMembers = (
             const memberData: IMember[] = snapshot.docs.map(
               (doc) => doc.data() as IMember,
             );
-            console.log('get members once', ...memberData);
             const notContainedMembers = memberData.filter(
               (member) => members.indexOf(member) === -1,
             );

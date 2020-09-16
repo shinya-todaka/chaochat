@@ -26,7 +26,6 @@ const useMessages = (
         .orderBy('createdAt')
         .withConverter(messageConverter);
 
-      console.log('subscribe messages listener');
       unsubscribe = query.onSnapshot(
         (snapshot) => {
           const messageData = snapshot.docs.map(
@@ -47,7 +46,6 @@ const useMessages = (
     return () => {
       unmounted = true;
       if (unsubscribe) {
-        console.log('unsubscribe messages listener');
         unsubscribe();
       }
     };

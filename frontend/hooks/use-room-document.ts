@@ -30,22 +30,21 @@ const useRoomDocument = (
         .doc(roomId)
         .withConverter(roomConverter);
 
-      console.log('subscribe room document listener');
       unsubscribe = query.onSnapshot(
         (snapshot) => {
           setIsRoomLoading(true);
-          const roomData = snapshot.data() as IRoom;
-          if (!snapshot.metadata.hasPendingWrites && !roomData.isClosed) {
-            const me = roomData.members.find((memberId) => memberId === uid);
-            setIsInRoom(Boolean(me));
+          if (snapshot.exists) {
+            const roomData = snapshot.data() as IRoom;
+            if (!snapshot.metadata.hasPendingWrites && !roomData.isClosed) {
+              const me = roomData.members.find((memberId) => memberId === uid);
+              setIsInRoom(Boolean(me));
+              setRoom(roomData);
+            }
           }
 
-          setRoom(roomData);
           setIsRoomLoading(false);
-          console.log('read room!!', roomData);
         },
         (err) => {
-          console.log(err);
           setError(err);
           setIsRoomLoading(false);
         },
@@ -55,7 +54,6 @@ const useRoomDocument = (
     return () => {
       unmounted = true;
       if (unsubscribe) {
-        console.log('unsubscribe room listener');
         unsubscribe();
       }
     };

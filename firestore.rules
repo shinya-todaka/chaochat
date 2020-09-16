@@ -10,7 +10,7 @@ service cloud.firestore {
           && request.resource.data.keys().hasOnly(['name','members','updatedAt','expiresIn', 'isClosed', 'createdAt'])
           && request.resource.data.keys().hasAll(['name','members', 'updatedAt','expiresIn', 'isClosed','createdAt'])
           && isNullOrValidString(request.resource.data.name, 1, 30)
-          && request.resource.data.expiresIn in [1,3,5,10]
+          && request.resource.data.expiresIn in [ 3, 5, 10, 15]
           && !request.resource.data.isClosed
           && request.resource.data.members == [request.auth.uid]
           && request.resource.data.updatedAt == request.time

@@ -46,12 +46,13 @@ const Home: FC = () => {
 
   const handleCreateRoom = async (
     name: string | null,
+    expiresIn: 3 | 5 | 10 | 15,
   ): Promise<string | null> => {
     if (user) {
       const room: ORoom = {
         name,
         members: [user.id],
-        expiresIn: 5,
+        expiresIn,
         isClosed: false,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
