@@ -131,7 +131,10 @@ const CreateRoom: FC<{
   );
 };
 
-const Complete: FC<{ roomId: string }> = ({ roomId }) => {
+const Complete: FC<{ roomId: string; expiresIn: 3 | 5 | 10 | 15 }> = ({
+  roomId,
+  expiresIn,
+}) => {
   const roomUrl = `${process.env.NEXT_PUBLIC_HOST}/rooms/${roomId}`;
   const classes = useStyles();
   const { showSnackbar } = useSnackbar();
@@ -153,7 +156,7 @@ const Complete: FC<{ roomId: string }> = ({ roomId }) => {
           ルームの作成に成功しました！
         </Typography>
       </DialogTitle>
-      <DialogContent>* ５分間チャットができます</DialogContent>
+      <DialogContent>{`* ${expiresIn}分間チャットができます。 `}</DialogContent>
       <DialogContent>
         <Link href={roomUrl}>
           <a className={classes.linkRoom}>
@@ -182,14 +185,16 @@ const CreateRoomDialog: FC<{
   ) => Promise<string | null>;
 }> = ({ open, handleClose, handleCreateRoom }) => {
   const [roomId, setRoomId] = useState<string | null>(null);
+  const [expiresIn, setExpiresIn] = useState<3 | 5 | 10 | 15>(5);
 
   const createRoomCompletion = async (
     name: string | null,
-    expiresIn: 3 | 5 | 10 | 15,
+    theExpiresIn: 3 | 5 | 10 | 15,
   ) => {
     try {
       const theRoomId = await handleCreateRoom(name, expiresIn);
       setRoomId(theRoomId);
+      setExpiresIn(theExpiresIn);
     } catch (err) {
       console.log(err);
     }
@@ -202,7 +207,7 @@ const CreateRoomDialog: FC<{
       aria-labelledby="simple-dialog-title"
     >
       {roomId ? (
-        <Complete roomId={roomId} />
+        <Complete roomId={roomId} expiresIn={expiresIn} />
       ) : (
         <CreateRoom completion={createRoomCompletion} />
       )}

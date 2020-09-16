@@ -63,9 +63,9 @@ const Home: FC = () => {
         isEnabled: true,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
-      const roomId = await writeRoom(user.id, member, room);
+      const sentRoom = await writeRoom(user.id, member, room);
 
-      return roomId;
+      return sentRoom.id;
     }
 
     return null;

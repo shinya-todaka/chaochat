@@ -4,7 +4,7 @@ export type IRoom = {
   id: string;
   name: string | null;
   members: string[];
-  expiresIn: 1 | 3 | 5 | 10;
+  expiresIn: 3 | 5 | 10 | 15;
   isClosed: boolean;
   updatedAt: firebase.firestore.Timestamp | null;
   createdAt: firebase.firestore.Timestamp | null;
