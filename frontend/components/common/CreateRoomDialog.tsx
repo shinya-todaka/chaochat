@@ -115,6 +115,7 @@ const Complete: FC<{ roomId: string }> = ({ roomId }) => {
           ルームの作成に成功しました！
         </Typography>
       </DialogTitle>
+      <DialogContent>* ５分間チャットができます</DialogContent>
       <DialogContent>
         <Link href={roomUrl}>
           <a className={classes.linkRoom}>

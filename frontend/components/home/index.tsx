@@ -14,7 +14,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Create from '@material-ui/icons/Create';
 import Twitter from '@material-ui/icons/Twitter';
 import Chat from '@material-ui/icons/Chat';
-import styled from 'styled-components';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,12 +24,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.light,
   },
 }));
-
-const DivWrapper = styled.div`
-  font-weight: bold;
-  font-size: 1.4em;
-  margin-left: 4px;
-`;
 
 const Home: FC = () => {
   const classes = useStyles();

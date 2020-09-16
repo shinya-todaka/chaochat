@@ -15,7 +15,6 @@ import writeMessage from 'services/write-message';
 import { OMessage } from 'models/message';
 import { useTextFieldDialog } from 'contexts/TextFieldDialogContext';
 import { useSnackbar } from 'contexts/SnackBarContext';
-import dayjs from 'dayjs';
 
 const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
   const { loadingUser, user } = useUser();
@@ -37,8 +36,6 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
       scrollArea.scrollTop = scrollArea.scrollHeight;
     }
   }, [messages]);
-
-  useEffect(() => {}, [room]);
 
   if (!room) {
     return (
