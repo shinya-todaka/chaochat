@@ -39,8 +39,6 @@ export async function createBuffer(room: IRoom): Promise<Buffer> {
   context.font = `${MAIN_FONT_SIZE}px ${FONT_FAMILY}`;
   context.fillStyle = '#000';
 
-  let dateStartingPosition = CANVAS_HEIGHT / 2;
-
   if (room.name) {
     const descriptionLines: string[] = splitByMeasureWidth(
       room.name,
@@ -59,7 +57,10 @@ export async function createBuffer(room: IRoom): Promise<Buffer> {
       context.fillText(line, (CANVAS_WIDTH - textWidth) / 2, startingPositionY);
       startingPositionY += MAIN_FONT_SIZE + 20;
     });
-    dateStartingPosition = 500;
+  } else {
+    const text = `${room.expiresIn}分間話そう！`;
+    const textWidth = context.measureText(text).width;
+    context.fillText(text, (CANVAS_WIDTH - textWidth) / 2, CANVAS_HEIGHT / 2);
   }
 
   context.font = `${DATE_FONT_SIZE}px ${FONT_FAMILY}`;
@@ -72,9 +73,8 @@ export async function createBuffer(room: IRoom): Promise<Buffer> {
   context.fillText(
     timeFormat,
     (CANVAS_WIDTH - textWidth) / 2,
-    dateStartingPosition + DATE_FONT_SIZE / 2 - 8,
+    500 + DATE_FONT_SIZE / 2 - 8,
   );
 
-  // draw clock
   return canvas.toBuffer();
 }
