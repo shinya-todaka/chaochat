@@ -39,8 +39,6 @@ const useMessages = (
           setLoading(false);
         },
       );
-    } else {
-      setMessages([]);
     }
 
     return () => {

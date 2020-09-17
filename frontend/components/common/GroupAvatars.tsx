@@ -3,9 +3,12 @@ import Avatar from '@material-ui/core/Avatar';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import { IMember } from 'models/member';
 
-const GroupAvatars: FC<{ members: IMember[] }> = ({ members }) => {
+const GroupAvatars: FC<{ members: IMember[]; onClickAvatars: () => void }> = ({
+  members,
+  onClickAvatars,
+}) => {
   return (
-    <AvatarGroup max={5}>
+    <AvatarGroup max={5} onClick={onClickAvatars}>
       {members.map((member) =>
         member.photoURL ? (
           <Avatar

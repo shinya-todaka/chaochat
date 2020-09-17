@@ -13,6 +13,7 @@ import FileCopy from '@material-ui/icons/FileCopy';
 import { TwitterIcon } from 'components/common/icons';
 import ExpireTime from 'components/room/ExpireTime';
 import { IRoom } from 'models/room';
+import ToolTip from '@material-ui/core/Tooltip';
 
 const RoomHeader: FC<{
   title: string | null;
@@ -20,7 +21,15 @@ const RoomHeader: FC<{
   members: IMember[];
   handleTweet: () => void;
   handleCopyUrl: () => Promise<void>;
-}> = ({ title, room, members, handleTweet, handleCopyUrl }) => {
+  handleClickAvatars: () => void;
+}> = ({
+  title,
+  room,
+  members,
+  handleTweet,
+  handleCopyUrl,
+  handleClickAvatars,
+}) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -46,12 +55,20 @@ const RoomHeader: FC<{
           </Box>
 
           <Box flexGrow={1} />
-          <Box>
-            <GroupAvatars members={members} />
-          </Box>
-          <IconButton onClick={handleClick}>
-            <PersonAdd />
-          </IconButton>
+          <ToolTip title="メンバー">
+            <Box style={{ cursor: 'pointer' }}>
+              <GroupAvatars
+                members={members}
+                onClickAvatars={handleClickAvatars}
+              />
+            </Box>
+          </ToolTip>
+          <ToolTip title="メンバーを招待する" color="primary">
+            <IconButton onClick={handleClick}>
+              <PersonAdd />
+            </IconButton>
+          </ToolTip>
+
           <Menu
             keepMounted
             getContentAnchorEl={null}

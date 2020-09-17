@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import firebase from 'firebase/app';
 import { useUser } from 'contexts/UserContext';
 import useRoom from 'hooks/use-room';
@@ -14,6 +14,7 @@ import writeMessage from 'services/write-message';
 import { OMessage } from 'models/message';
 import { useTextFieldDialog } from 'contexts/TextFieldDialogContext';
 import { useSnackbar } from 'contexts/SnackBarContext';
+import MembersDialog from 'components/room/MembersDialog';
 
 const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
   const { loadingUser, user } = useUser();
@@ -24,6 +25,7 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
   );
   const { showDialog } = useTextFieldDialog();
   const { showSnackbar } = useSnackbar();
+  const [isOpenMembersDialog, setIsOpenMembersDialog] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(!!user, loadingUser);
@@ -104,14 +106,24 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
     window.open(uri);
   };
 
+  const handleClickAvatars = () => {
+    setIsOpenMembersDialog(true);
+  };
+
   return (
-    <Box display="flex" flexDirection="column" height="100%">
+    <Box
+      display="flex"
+      flexDirection="column"
+      height="100%"
+      aria-controls="room-members"
+    >
       <RoomHeader
         title={room.name}
         room={room}
         members={members}
         handleTweet={handleTweet}
         handleCopyUrl={handleCopyUrl}
+        handleClickAvatars={handleClickAvatars}
       />
 
       <Box flex={1} overflow="auto" id="scroll-area" padding={1}>
@@ -125,6 +137,12 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
         room={room}
         sendMessage={sendMessage}
         handleJoin={handleJoin}
+      />
+
+      <MembersDialog
+        members={members}
+        open={isOpenMembersDialog}
+        setIsOpen={setIsOpenMembersDialog}
       />
     </Box>
   );
