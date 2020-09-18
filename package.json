@@ -8,7 +8,7 @@
     "dev": "next frontend",
     "serve": "firebase serve --only functions,hosting",
     "build:functions": "tsc --project functions",
-    "copy:fonts": "cpx \"functions/fonts/*.ttf\" \"dist/fonts\" -C",
+    "copy:fonts": "cpx \"functions/fonts/*.otf\" \"dist/fonts\" -C",
     "copy:images": "cpx \"functions/images/*.png\" \"dist/images\" -C",
     "build:public": "cpx \"public/**/*.*\" \"dist/public\" -C",
     "build": "next build frontend && npm run build:functions && npm run build:public && npm run copy:images && npm run copy:fonts",

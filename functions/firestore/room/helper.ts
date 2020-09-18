@@ -6,10 +6,10 @@ const CANVAS_WIDTH = 1200;
 const CANVAS_HEIGHT = 630;
 
 const IMAGE_PATH = 'dist/images/background.png';
-const FONT_PATH = 'dist/fonts/OpenSans-Bold.ttf';
+const FONT_PATH = 'dist/fonts/NotoSansJP-Bold.otf';
 const MAIN_FONT_SIZE = 70;
-const DATE_FONT_SIZE = 70;
-const FONT_FAMILY = 'OpenSans Bold';
+const DATE_FONT_SIZE = 50;
+const FONT_FAMILY = 'NotoSansJP Bold';
 
 const splitByMeasureWidth = (
   str: string,
@@ -69,12 +69,7 @@ export async function createBuffer(room: IRoom): Promise<Buffer> {
     .add(9, 'hour')
     .add(room.expiresIn, 'minute');
   const timeFormat = time.format('A h:mm:ss まで');
-  const textWidth: number = context.measureText(timeFormat).width;
-  context.fillText(
-    timeFormat,
-    (CANVAS_WIDTH - textWidth) / 2,
-    500 + DATE_FONT_SIZE / 2 - 8,
-  );
+  context.fillText(timeFormat, 484, 530);
 
   return canvas.toBuffer();
 }

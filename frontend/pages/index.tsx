@@ -7,8 +7,9 @@ import Box from '@material-ui/core/Box';
 import Head from 'next/head';
 
 const Index: NextPage = () => {
-  const title = 'chaochat | とくめいで参加できる時間制限ありのグループチャット';
-  const description = 'とくめいで参加できる時間制限ありのグループチャット';
+  const title =
+    'chaochat | Twitterから参加できる時間制限ありのグループチャット';
+  const description = 'Twitterから参加できる時間制限ありのグループチャット';
   const url = `${process.env.NEXT_PUBLIC_HOST}`;
 
   return (

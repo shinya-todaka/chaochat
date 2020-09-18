@@ -33,13 +33,6 @@ const JoinRoomFooter: FC<{
           <Box display="flex" flexDirection="column">
             <Button
               variant="contained"
-              onClick={() => onClickJoin(true)}
-              className={classes.margin}
-            >
-              とくめいで参加する
-            </Button>
-            <Button
-              variant="contained"
               onClick={() => onClickJoin(false)}
               className={classes.margin}
             >

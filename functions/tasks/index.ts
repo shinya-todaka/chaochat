@@ -14,6 +14,6 @@ export const firestoreTtlCallback = functions
     } catch (error) {
       functions.logger.error(error);
       console.log(error);
-      res.status(500).send(error);
+      res.sendStatus(500).send(error);
     }
   });

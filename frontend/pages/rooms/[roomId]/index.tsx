@@ -7,14 +7,14 @@ import Head from 'components/common/Head';
 import AppBar from 'components/common/header/AppBar';
 import Box from '@material-ui/core/Box';
 import { useRouter } from 'next/router';
-import { Typography } from '@material-ui/core';
+import Error from 'next/error';
 
 const RoomPage: NextPage = () => {
   const router = useRouter();
   const { roomId } = router.query;
 
   if (!roomId || typeof roomId !== 'string') {
-    return <Typography>Something is wrong!</Typography>;
+    return <Error statusCode={404}>Something is wrong!</Error>;
   }
 
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
@@ -24,8 +24,8 @@ const RoomPage: NextPage = () => {
   return (
     <Box display="flex" flexDirection="column" height="100%">
       <Head
-        title="chaochat | とくめいで参加できる時間制限ありのグループチャット"
-        description="とくめいで参加できる時間制限ありのグループチャット"
+        title="chaochat | Twitterから参加できる時間制限ありのグループチャット"
+        description="Twitterから参加できる時間制限ありのグループチャット"
         keyword="chaochat"
         image={imageUrl}
         imageWidth="1200"

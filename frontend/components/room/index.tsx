@@ -125,20 +125,17 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
         handleCopyUrl={handleCopyUrl}
         handleClickAvatars={handleClickAvatars}
       />
-
       <Box flex={1} overflow="auto" id="scroll-area" padding={1}>
         {user && (
           <MessageList roomId={room.id} uid={user.id} messages={messages} />
         )}
       </Box>
-
       <RoomFooter
         isInRoom={isInRoom}
         room={room}
         sendMessage={sendMessage}
         handleJoin={handleJoin}
       />
-
       <MembersDialog
         members={members}
         open={isOpenMembersDialog}

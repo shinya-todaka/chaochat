@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   paper: {
     maxHeight: '50%',
     maxWidth: '315px',
-    width: '50%',
+    width: '80%',
   },
 });
 
