@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { IMessage } from 'models/message';
 import Box from '@material-ui/core/Box';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   myMessageItem: {
     display: 'flex',
     flexDirection: 'row-reverse',

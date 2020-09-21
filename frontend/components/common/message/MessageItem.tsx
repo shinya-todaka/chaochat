@@ -7,11 +7,11 @@ const MessageItem: FC<{
   roomId: string;
   isMyMesssage: boolean;
   message: IMessage;
-}> = ({ roomId, isMyMesssage, message }) => {
+}> = ({ isMyMesssage, message }) => {
   return isMyMesssage ? (
     <MyMessageItem message={message} />
   ) : (
-    <OthersMessageItem roomId={roomId} message={message} />
+    <OthersMessageItem message={message} />
   );
 };
 

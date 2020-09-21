@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import { ORoom } from 'models/room';
 import { OMember } from 'models/member';
 import 'firebase/firestore';
+import Converter from 'utils/Converter';
 
 type Parameters = {
   uid: string;
@@ -11,16 +12,18 @@ type Parameters = {
 
 const writeRoom = async (parameters: Parameters): Promise<string> => {
   const db = firebase.firestore();
+  const roomConverter = new Converter<ORoom>(true, true);
+  const memberConverter = new Converter<OMember>(true, false);
   const roomDocument = db
     .collection('message')
     .doc('v1')
     .collection('rooms')
     .doc();
   const batch = db.batch();
-  batch.set(roomDocument, parameters.room);
+  batch.set(roomDocument, roomConverter.encode(parameters.room));
   batch.set(
     roomDocument.collection('members').doc(parameters.uid),
-    parameters.member,
+    memberConverter.encode(parameters.member),
   );
   await batch.commit();
 

@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import Box from '@material-ui/core/Box';
 import GroupAvatars from 'components/common/GroupAvatars';
 import { IMember } from 'models/member';
+import { IRoom } from 'models/room';
 import ToolBar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import { Menu, MenuItem } from '@material-ui/core';
@@ -12,7 +13,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FileCopy from '@material-ui/icons/FileCopy';
 import { TwitterIcon } from 'components/common/icons';
 import ExpireTime from 'components/room/ExpireTime';
-import { IRoom } from 'models/room';
 import ToolTip from '@material-ui/core/Tooltip';
 
 const RoomHeader: FC<{

@@ -29,10 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const OthersMessageItem: FC<{ roomId: string; message: IMessage }> = ({
-  roomId,
-  message,
-}) => {
+const OthersMessageItem: FC<{ message: IMessage }> = ({ message }) => {
   const classes = useStyles();
   const { members } = useMembersContext();
 

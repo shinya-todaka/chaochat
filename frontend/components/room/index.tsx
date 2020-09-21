@@ -1,5 +1,4 @@
 import React, { FC, useState, useEffect } from 'react';
-import firebase from 'firebase/app';
 import { useUser } from 'contexts/UserContext';
 import useRoom from 'hooks/use-room';
 import Box from '@material-ui/core/Box';
@@ -12,7 +11,6 @@ import { OMember } from 'models/member';
 import writeMember from 'services/write-member';
 import writeMessage from 'services/write-message';
 import { OMessage } from 'models/message';
-import { useTextFieldDialog } from 'contexts/TextFieldDialogContext';
 import { useSnackbar } from 'contexts/SnackBarContext';
 import MembersDialog from 'components/room/MembersDialog';
 
@@ -23,7 +21,6 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
     user?.id || null,
     roomId,
   );
-  const { showDialog } = useTextFieldDialog();
   const { showSnackbar } = useSnackbar();
   const [isOpenMembersDialog, setIsOpenMembersDialog] = useState(false);
 
@@ -58,26 +55,10 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
           displayName: user.displayName,
           photoURL: user.photoURL,
           isEnabled: true,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         };
         await writeMember(user.id, room.id, member);
       } else {
-        const validator = (text: string) =>
-          text.length > 0 && text.length <= 30;
-        showDialog({
-          title: '名前を決めてください',
-          validator,
-          actionTitle: '決定',
-          action: async (name) => {
-            const member: OMember = {
-              displayName: name,
-              photoURL: null,
-              isEnabled: true,
-              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            };
-            await writeMember(user.id, room.id, member);
-          },
-        });
+        throw Error('this operation is not permitted');
       }
     }
   };
@@ -87,7 +68,6 @@ const RoomContainer: FC<{ roomId: string }> = ({ roomId }) => {
       const message: OMessage = {
         from: user.id,
         text,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
       await writeMessage(room.id, message);
     }

@@ -1,8 +1,9 @@
-import { IMember, memberConverter } from 'models/member';
+import { IMember, OMember } from 'models/member';
 import { useState, useEffect } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { firestore } from 'firebase';
+import Converter from 'utils/Converter';
 
 const useMembers = (
   memberIds: string[],
@@ -15,6 +16,7 @@ const useMembers = (
   const [isMembersLoading, setIsMembersLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [members, setMembers] = useState<IMember[]>([]);
+  const converter = new Converter<OMember>(true, false);
 
   useEffect(() => {
     const unmounted = false;
@@ -34,14 +36,13 @@ const useMembers = (
           .doc(roomId)
           .collection('members')
           .where('isEnabled', '==', true)
-          .where(firestore.FieldPath.documentId(), 'in', memberIdsDiff)
-          .withConverter(memberConverter);
+          .where(firestore.FieldPath.documentId(), 'in', memberIdsDiff);
 
         query
           .get()
           .then((snapshot) => {
-            const memberData: IMember[] = snapshot.docs.map(
-              (doc) => doc.data() as IMember,
+            const memberData = snapshot.docs.map((doc) =>
+              converter.decode(doc),
             );
             const notContainedMembers = memberData.filter(
               (member) => members.indexOf(member) === -1,

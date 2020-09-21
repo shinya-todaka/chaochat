@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import firebase from 'firebase/app';
-import { IMessage, messageConverter } from 'models/message';
+import { OMessage, IMessage } from 'models/message';
 import 'firebase/firestore';
+import Converter from 'utils/Converter';
 
 const useMessages = (
   isInRoom: boolean,
@@ -10,6 +11,7 @@ const useMessages = (
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const converter = new Converter<OMessage>(true, false);
 
   useEffect(() => {
     let unmounted = false;
@@ -23,14 +25,11 @@ const useMessages = (
         .collection('rooms')
         .doc(roomId)
         .collection('messages')
-        .orderBy('createdAt')
-        .withConverter(messageConverter);
+        .orderBy('createdAt');
 
       unsubscribe = query.onSnapshot(
         (snapshot) => {
-          const messageData = snapshot.docs.map(
-            (doc) => doc.data() as IMessage,
-          );
+          const messageData = snapshot.docs.map((doc) => converter.decode(doc));
           setMessages(messageData);
           setLoading(false);
         },

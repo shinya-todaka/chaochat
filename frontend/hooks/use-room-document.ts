@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import firebase from 'firebase/app';
-import { IRoom, roomConverter } from 'models/room';
+import { IRoom } from 'models/room';
+import Converter, { Decoded } from 'utils/Converter';
 import 'firebase/firestore';
 
 const useRoomDocument = (
@@ -14,8 +15,9 @@ const useRoomDocument = (
 } => {
   const [isRoomLoading, setIsRoomLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [room, setRoom] = useState<IRoom | null>(null);
+  const [room, setRoom] = useState<Decoded<IRoom> | null>(null);
   const [isInRoom, setIsInRoom] = useState<boolean>(false);
+  const converter = new Converter<IRoom>(true, true);
 
   useEffect(() => {
     let unmounted = false;
@@ -27,14 +29,13 @@ const useRoomDocument = (
         .collection('message')
         .doc('v1')
         .collection('rooms')
-        .doc(roomId)
-        .withConverter(roomConverter);
+        .doc(roomId);
 
       unsubscribe = query.onSnapshot(
         (snapshot) => {
           setIsRoomLoading(true);
           if (snapshot.exists) {
-            const roomData = snapshot.data() as IRoom;
+            const roomData = converter.decode(snapshot);
             if (!snapshot.metadata.hasPendingWrites) {
               const me = roomData.members.find((memberId) => memberId === uid);
               if (roomData.isClosed) {

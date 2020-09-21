@@ -1,8 +1,13 @@
 import firebase from 'firebase/app';
 import { OMessage } from 'models/message';
+import Converter from 'utils/Converter';
 
-const writeUser = async (roomId: string, message: OMessage): Promise<void> => {
+const writeMessage = async (
+  roomId: string,
+  message: OMessage,
+): Promise<void> => {
   const db = firebase.firestore();
+  const converter = new Converter<OMessage>(true, false);
   const messagesCollection = db
     .collection('message')
     .doc('v1')
@@ -10,7 +15,7 @@ const writeUser = async (roomId: string, message: OMessage): Promise<void> => {
     .doc(roomId)
     .collection('messages');
 
-  await messagesCollection.add(message);
+  await messagesCollection.add(converter.encode(message));
 };
 
-export default writeUser;
+export default writeMessage;
