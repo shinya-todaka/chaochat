@@ -28,8 +28,9 @@ export default class Converter<T> {
     }
 
     if (this.includeUpdatedAt) {
-      encodedData.createdAt = firestore.FieldValue.serverTimestamp();
+      encodedData.updatedAt = firestore.FieldValue.serverTimestamp();
     }
+    console.log(encodedData);
 
     return encodedData;
   }
