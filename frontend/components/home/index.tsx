@@ -57,14 +57,11 @@ const Home: FC = () => {
         members: [user.id],
         expiresIn,
         isClosed: false,
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
       const member: OMember = {
         displayName: user.displayName,
         photoURL: user.photoURL,
         isEnabled: true,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
 
       setIsWritingRoom(true);
