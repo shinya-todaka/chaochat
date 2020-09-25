@@ -53,7 +53,6 @@ const useMembers = (
           .catch((err) => {
             setError(err);
             setIsMembersLoading(false);
-            console.log(err);
           });
       }
     }

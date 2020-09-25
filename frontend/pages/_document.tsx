@@ -33,7 +33,6 @@ class MyDocument extends Document {
 }
 
 MyDocument.getInitialProps = async (ctx: DocumentContext) => {
-  // 参考 https://github.com/mui-org/material-ui/blob/master/examples/nextjs/pages/_document.js
   const styledComponentSheet = new ServerStyleSheet();
   const materialSheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;

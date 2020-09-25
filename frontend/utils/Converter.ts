@@ -30,7 +30,6 @@ export default class Converter<T> {
     if (this.includeUpdatedAt) {
       encodedData.updatedAt = firestore.FieldValue.serverTimestamp();
     }
-    console.log(encodedData);
 
     return encodedData;
   }
