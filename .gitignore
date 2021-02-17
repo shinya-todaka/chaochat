@@ -31,3 +31,7 @@ dist/
 
 # firebase config
 src/firebase-config.json
+
+# firestorm rules 
+firestore.rules
+tests
