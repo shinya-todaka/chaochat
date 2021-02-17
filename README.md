@@ -31,7 +31,7 @@ React.js(typescript)
 ### 機能一覧
 - チャット: データベースとしてはFirebaseのCloud Firestoreを用いている
 - 時間制限: Cloud Functions For Firebase のトリガーにより Cloud Tasksで時間制限機能を決めている。
-- ホスティング: Cloud FunctionsをNext.jsに乗せる事でSSRを行っている。
+- ホスティング: Next.jsをCloud Functionsに乗せる事でSSRを行っている。
 
 ### 画面一覧
 - ルーム作成画面 ：チャットルームを作成する
