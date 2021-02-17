@@ -20,9 +20,10 @@ VSCode
 ### 開発言語
 React.js(typescript)
 
-## 動作対象端末・OS
-### 動作対象OS
-iOS 13.2.3
+## 動作対象ブラウザ
+- Chrome 
+- Safari
+- Firefox
 
 ## アプリケーション機能
 - チャットのルームを作りtwitterでURLを公開することにより参加者を募集する。
